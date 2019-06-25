@@ -1,0 +1,128 @@
+.user-list {
+  /*justify-content: flex-end;*/
+  flex-basis: 38%;flex-basis: auto;
+  min-width: 28%;
+  /*flex-grow: 1;*/
+  flex-shrink: 1;
+  /*padding-left: 25px;*/
+
+  background-color: rgba(10, 140, 190, 0.5);
+}
+
+.user-list--closed {
+  display: none;
+}
+
+.user-list__item {
+  font-size: 14px;
+  line-height: 16px;
+
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.user-list__item:first-child {
+  margin-left: 0;
+}
+
+.user-list__link  {
+  position: relative;
+
+  padding-left: 28px;
+}
+
+.user-list__link::before {
+  position: absolute;
+  content: "";
+  top: 50%;
+  left: 0;
+
+  transform: translateY(-50%);
+
+  background-color: #444444;
+  background-repeat: no-repeat;
+  background-size: 90%;
+}
+
+.user-list__search::before {
+  width: 17px;
+  height: 17px;
+
+  background-image: url("../img/search.svg");
+}
+
+.user-list__login::before {
+  width: 21px;
+  height: 19px;
+
+  background-image: url("../img/login.svg");
+}
+
+.user-list__cart::before {
+  width: 21px;
+  height: 20px;
+
+  background-image: url("../img/cart.svg");
+}
+
+@media (min-width: 600px) {
+  .user-list {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .user-list--closed {
+    display: flex;
+  }
+  .user-list__item {
+    margin-left: 10px;
+    padding-left: 8px;
+    padding-right: 8px;
+    /*padding-left: 16px;
+    padding-right: 16px;*/
+  }
+
+  /*.user-list__item--search {
+    padding-left: 8px;
+    padding-right: 8px;
+  }*/
+
+  .user-list__link {
+    width: 21px;
+    height: 19px;
+    padding: 0;
+
+    font-size: 0;
+  }
+
+  .user-list__search {
+    width: 17px;
+    height: 17px;
+    padding: 0;
+    /*font-size: 0;*/
+  }
+}
+
+@media (min-width: 900px) {
+  /**/
+  .user-list__item {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .user-list__item--search {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  .user-list__link {
+    width: auto;
+    height: auto;
+    padding-left: 28px;
+    font-size: 14px;
+  }
+  .user-list__search {
+    font-size: 0;
+    width: 17px;
+    height: 17px;
+    padding: 0;
+  }
+}
+
+

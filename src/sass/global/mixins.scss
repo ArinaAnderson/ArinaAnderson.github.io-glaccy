@@ -1,0 +1,96 @@
+.underlined {
+  position: relative;
+  padding-bottom: 1px;
+  background-color: pink;
+}
+.underlined::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  width: 100%;
+  height: 1px;
+
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+// Универсальный контейнер
+@mixin container ($leftMobile:6.4%, $rightMobile:6.4%, $leftTablet:5.859375%, $rightTablet:5.859375%) {
+  padding-left: $leftMobile;
+  padding-right: $rightMobile;
+  max-width: $portrait-width;
+
+  @media (min-width: $portrait-width) {
+    max-width: $landscape-width;
+    padding-left: $leftTablet;
+    padding-right: $rightTablet;
+  }
+
+  @media (min-width: $landscape-width) {
+    max-width: $desktop-width;
+  }
+
+  @media (min-width: $desktop-width) {
+    min-width: $desktop-width;
+    max-width: none;
+  }
+}
+
+// Медиа на размеры экранов
+@mixin mobile-only {
+  @media (min-width: $mobile-width) and (max-width: $portrait-width - 1) {
+    @content;
+  }
+}
+
+@mixin portrait {
+  @media (min-width: $portrait-width) {
+    @content;
+  }
+}
+
+@mixin portrait-only {
+  @media (min-width: $portrait-width) and (max-width: $landscape-width - 1) {
+    @content;
+  }
+}
+
+@mixin landscape {
+  @media (min-width: $landscape-width) {
+    @content;
+  }
+}
+
+@mixin landscape-only {
+  @media (min-width: $landscape-width) and (max-width: $desktop-width - 1) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: $desktop-width) {
+    @content;
+  }
+}
+
+// Медиа для ретины
+@mixin retina($retinaX) {
+  @if $retinaX==2 {
+    @media (min-resolution: $retina2x-dpi), (min-resolution: $retina2x-dppx) {
+      @content;
+    }
+  }
+
+  @if $retinaX==3 {
+    @media (min-resolution: $retina3x-dpi), (min-resolution: $retina3x-dppx) {
+      @content;
+    }
+  }
+}
+
+// Шрифты
+@mixin font ($font-size, $line-height:normal) {
+  font-size: $font-size;
+  line-height: $line-height;
+}

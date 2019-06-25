@@ -1,0 +1,69 @@
+.site-list {
+  justify-content: flex-start;
+  flex-basis: 62%;flex-basis: auto;
+  min-width: 60%;
+  flex-shrink: 1;
+
+  /*padding-left: 25px;*/
+  /*padding-right: 25px;*//*adding the same padding-left: 25px; to user-list makes this unnecessary*/
+  /*padding-top: 10px;*/
+}
+
+.site-list--closed {
+  display: none;
+}
+
+.site-list__item {
+  font-size: 16px;
+  line-height: 18px;
+
+  background-color: rgba(10, 180, 100, 0.5);
+}
+
+@media (min-width: 600px) {
+  .site-list {
+  	position: absolute;
+  	top: 100%;
+  	left: 20px;
+
+  	width: 280px;
+  	flex-basis: 280px;
+  	min-width: auto;
+  }
+  .site-list--closed {
+    display: none;
+  }/*ADDED*/
+  .site-list__item {
+    margin-right: 10px;
+    padding-left: 13px;
+    padding-right: 13px;
+  }
+
+  .site-list__item:last-child {
+	/*margin-right: 0;*/
+  }
+}
+
+@media (min-width: 900px) {
+  .site-list {
+  	position: static;
+  	width: auto;
+  	flex-basis: auto;
+  	min-width: 60%;
+  }
+  .site-list--closed {
+    display: flex;
+  }
+
+  .site-list {
+    display: flex;flex-basis: auto;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    /*justify-content: space-between;*/
+    align-items: flex-start;
+  }
+}
+
+
+
+

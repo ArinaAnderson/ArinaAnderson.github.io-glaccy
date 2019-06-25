@@ -1,0 +1,62 @@
+.page {
+  min-width: $mobile-width;
+  margin: 0 auto;
+
+  background-image: url("http://habrastorage.org/files/97d/5df/2eb/97d5df2ebcf24bf489a37010e8157862.png");
+
+
+  &--mint {
+    background-color: $mintBG;
+  }
+}
+
+.page a {
+  color: #ffffff;
+}
+/*
+.page--popup {
+  position: relative;
+
+  overflow: hidden;
+}
+
+.page--menu-poup {
+  overflow: hidden;
+}
+
+.page--popup::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+
+  width: 100%;
+  height: 100%;
+
+  background-color: #494A06;
+  opacity: 0.9;
+}
+
+.page--no-scroll {
+  overflow: hidden;
+  &::-webkit-scrollbar,
+  &::-webkit-scrollbar-button,
+  &::-webkit-scrollbar-track,
+  &::-webkit-scrollbar-thumb {
+    display: none;
+    width: 0;
+
+    background: transparent;
+  }
+}
+
+.page__main {
+  width: 100%;
+  max-width: $max-width + 100;
+  margin: 0 auto;
+}
+
+.page__main-list {
+  margin: 0;
+}*/

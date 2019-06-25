@@ -1,0 +1,125 @@
+html {
+  box-sizing: border-box;
+  height: 100%;
+  font-family: $default-font-family;
+  /*-webkit-tap-highlight-color: transparent;*/
+  scroll-behavior: smooth;
+}
+
+/*
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+  font-family: inherit;
+}*/
+
+body {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  font-family: $default-font-family;
+  font-size: 15px;
+  line-height: 1.6;
+  font-weight: 400;
+  color: $default-font-color;
+  background-color: $white;
+}
+
+.global-wrapper {
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  display: block;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.visually-hidden {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+
+  border: 0;
+
+  clip: rect(0 0 0 0);
+}
+
+.mobile-only {
+  display: block;
+
+  @include desktop {
+    display: none;
+  }
+}
+
+.desktop-only {
+  display: none;
+
+  @include desktop {
+    display: block;
+  }
+}
+
+input {
+  border-radius: 0;
+}
+
+input[type="text"],
+input[type="tel"] {
+  /* Remove First */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  /*color: #ffffff;*/
+  text-decoration: none;
+}
+/*
+.overflow-hidden {
+  overflow: hidden;
+  //height: 100vh;
+  //-moz-overflow:hidden;
+}*/
+
+.book-button {
+  text-align: center;
+  width: 280px;
+  padding: $sizeXXS;
+
+  color: $white;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+
+  background-color: #fd6a00;
+  border: none;
+  border-radius: 55px;
+
+  transition: box-shadow 0.3s ease;
+
+  @include font(24px);
+
+  &:hover,
+  &:focus,
+  &:active {
+    box-shadow: 0px 10px 50px rgba(253, 106, 0, 0.64);
+  }
+}
+

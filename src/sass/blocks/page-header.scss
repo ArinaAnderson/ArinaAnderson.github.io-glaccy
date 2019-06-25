@@ -1,0 +1,187 @@
+.page-header {
+  position: relative;
+
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: $sizeXS $sizeM 0 $sizeM;
+  box-sizing: border-box;
+
+  background-color: rgba(160, 200, 20, 0.5);
+  /*background-image: url("http://habrastorage.org/files/97d/5df/2eb/97d5df2ebcf24bf489a37010e8157862.png");*/
+
+}
+
+.page-header__top {
+  display: flex;
+  /*align-items: center;*//*logo gets located in the centre*/
+}
+
+.page-header__bottom {
+  display: flex;
+  justify-content: flex-end;
+}
+.page-header__logo {
+  display: block;
+  width: 100%;
+  background-color: mistyrose;
+}
+
+.page-header__logo svg {
+  display: block;
+  margin: 0 auto;
+  /*background-color: green*/
+}
+
+.page-header__btn {
+  position: absolute;
+  top: 25px;
+  right: 20px;
+  z-index: 2;
+
+  width: 27px;
+  height: 26px;
+
+  background-color: #ffffff;
+  border: none;
+
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.page-header__btn--no-js {
+  display: none;
+}
+
+.page-header__btn--open::before {
+  content: "";
+
+  position: absolute;
+  top: 6px;
+  left: 3px;
+
+  width: 20px;
+  height: 2px;
+
+  box-shadow: 0 6px 0 0 #221f1f, 0 12px 0 0 #221f1f;
+  background-color: #221f1f;
+}
+
+.page-header__btn--close::before,
+.page-header__btn--close::after {
+  content: "";
+
+  position: absolute;
+  top: 12px;
+  left: 0;
+
+  width: 27px;
+  height: 2px;
+
+  background-color: #221f1f;
+}
+
+.page-header__btn:active {
+  background-color: #d07058;
+}
+
+.page-header__btn--open:active::before {
+  background-color: #ffffff;
+  box-shadow: 0 6px 0 0 #ffffff, 0 12px 0 0 #ffffff;
+}
+
+.page-header__btn--close::before {
+  transform: rotate(45grad);
+}
+
+.page-header__btn--close::after {
+  transform: rotate(-45grad);
+}
+
+.page-header__btn--close:active::before,
+.page-header__btn--close:active::after {
+  background-color: #ffffff;
+}
+
+
+.page-header__contacts {
+  
+  margin: 0 auto;
+  padding: 0;
+
+  font-size: 14px;
+  line-height: 16px;
+  text-align: center;
+
+  background-color: rgba(10, 120, 180, 0.7);
+}
+
+.page-header__phone {
+  display: block;
+  margin-top: 8px;
+  text-align: center;
+
+  font-size: 22px;
+  line-height: 24px;
+}
+
+@media (min-width: 600px) {
+  .page-header {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .page-header__logo {
+    display: block;
+    width: 200px;
+    background-color: mistyrose;
+  }
+
+  .page-header__logo svg {
+    margin: 0;
+    margin-left: auto;
+  }
+
+  .page-header__btn {
+    left: 20px;
+    /*top: calc(100% - 26px);*/
+  }
+
+  .page-header__contacts {
+    flex-basis: 162px;
+    align-self: center;/*NEW*/
+    margin: 0;
+    margin-left: auto;/*NEW*/
+    margin-left: 20px;
+    padding: 0;
+    padding-left: 15px;
+
+ 
+    text-align: right;
+
+    background-color: rgba(10, 120, 180, 0.7);
+  }
+
+  .page-header__phone {
+    display: block;
+    margin-top: 8px;
+
+    font-size: 22px;
+    line-height: 24px;
+    text-align: right;
+  }
+}
+
+@media (min-width: 900px) {
+  .page-header__logo {
+    width: 154px;
+  }
+  .page-header__btn {
+    display: none;
+  }
+  .page-header__contacts {
+    margin-left: auto;
+  }
+}
+
+
