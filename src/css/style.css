@@ -988,10 +988,10 @@ a {
     -webkit-box-pack: end;
         -ms-flex-pack: end;
             justify-content: flex-end; }
-  .user-list--closed {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex; }
+  /*.user-list--closed {
+    display: flex;
+  }*/
+  /*checking js methods*/
   .user-list__item {
     margin-left: 10px;
     padding-left: 8px;
