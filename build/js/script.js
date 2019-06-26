@@ -3,18 +3,16 @@
   var mainNavBtn = document.querySelector('.page-header__btn');
   mainNavBtn.classList.remove('page-header__btn--no-js');
 
-  /*var siteList = document.querySelector('.site-list');
-  var userList = document.querySelector('.user-list');*/
-  var breakPoints = [0, 600];//[600, 900, 1200];
+
+  var breakPoints = [0, 600];
   var devWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;//calculation + addEventL... window.addEventListener('resize', function() {calculation});
-  
-  var devWidthBreakpoint = devWidth < 600 ? 0 : 600;//defineDevWidthBreakpoint();//<-- defineDevWidthBreakpoint()
+  var devWidthBreakpoint = defineDevWidthBreakpoint();//defineDevWidthBreakpoint();//<-- defineDevWidthBreakpoint()
   function defineDevWidthBreakpoint() {
-    devWidthBreakpoint = devWidth < 600 ? 0 : 600;
+    return devWidth < 600 ? 0 : 600;
   }
   function windowResizeHandler() {
     devWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-    devWidthBreakpoint = devWidth < 600 ? 0 : 600;
+    devWidthBreakpoint = defineDevWidthBreakpoint();
   }
 
   var navLists = [];
@@ -41,11 +39,9 @@
       }
     };
   }
-  
-  
 
-  navLists.push(new NavList('site-list', {0: true, 600: true}));//{[breakPoints[0]]:true, [breakPoints[1]]: true, [breakPoints[2]]: false}))://{600: true, 900: true, 1200: false}));
-  navLists.push(new NavList('user-list', {0: true, 600: false}));//{[breakPoints[0]]:true, [breakPoints[1]]: false, [breakPoints[2]]: false}));//{600: true, 900: false, 1200: false}));
+  navLists.push(new NavList('site-list', {0: true, 600: true}));//{[breakPoints[0]]:true, [breakPoints[1]]: true, [breakPoints[2]]: false})):
+  navLists.push(new NavList('user-list', {0: true, 600: false}));//{[breakPoints[0]]:true, [breakPoints[1]]: false, [breakPoints[2]]: false}));
   
   window.addEventListener('resize', function () {
     windowResizeHandler();
@@ -59,10 +55,6 @@
         navLists[i].closeNavList();
       }
     }
-    /*for (var i = 0; i < navLists.length; i++) {
-      navLists[i].openNavList();
-      navLists[i].closeNavList();
-    }*/
   });
 
   mainNavBtn.addEventListener('click', function () {
@@ -73,5 +65,4 @@
     mainNavBtn.classList.toggle('page-header__btn--close');
     console.log(devWidthBreakpoint);
   });
-
 })();
