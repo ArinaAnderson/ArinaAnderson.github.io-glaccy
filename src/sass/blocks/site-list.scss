@@ -8,12 +8,20 @@
   /*padding-right: 25px;*//*adding the same padding-left: 25px; to user-list makes this unnecessary*/
   /*padding-top: 10px;*/
 }
+.site-list__dropdown {
+  position: absolute;
+ top: 100%;
+  padding: 0;
+  margin: 0;
+  background: rgba(200, 180, 100, 0.5);
+}
 
 .site-list--closed {
   display: none;
 }
 
 .site-list__item {
+  position: relative;
   font-size: 16px;
   line-height: 18px;
 
@@ -35,8 +43,18 @@
   }/*ADDED*/
   .site-list__item {
     margin-right: 10px;
+    justify-content: flex-start;
+    /*padding-left: 13px;
+    padding-right: 13px;*/
+  }
+  .site-list__item:active {
+    background-color: blue;
+  }
+  .site-list__link {
+    width: auto;
     padding-left: 13px;
     padding-right: 13px;
+
   }
 
   .site-list__item:last-child {

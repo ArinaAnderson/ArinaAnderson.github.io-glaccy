@@ -1,4 +1,4 @@
-.underlined {
+/*.underlined {
   position: relative;
   padding-bottom: 1px;
   background-color: pink;
@@ -13,7 +13,7 @@
   height: 1px;
 
   background-color: rgba(255, 255, 255, 0.2);
-}
+}*/
 
 // Универсальный контейнер
 @mixin container ($leftMobile:6.4%, $rightMobile:6.4%, $leftTablet:5.859375%, $rightTablet:5.859375%) {
