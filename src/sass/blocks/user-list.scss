@@ -69,15 +69,13 @@
     display: flex;
     justify-content: flex-end;
   }
-  /*.user-list--closed {
+  .user-list--closed {
     display: flex;
-  }*//*checking js methods*/
+  }/*checking js methods*/
   .user-list__item {
     margin-left: 10px;
     padding-left: 8px;
     padding-right: 8px;
-    /*padding-left: 16px;
-    padding-right: 16px;*/
   }
 
   /*.user-list__item--search {

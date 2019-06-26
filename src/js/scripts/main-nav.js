@@ -17,44 +17,19 @@
 
   var navLists = [];
 
-  function NavList(listClass, listBreakpoints) {
+  function NavList(listClass) {
     this.list = document.querySelector('.' + listClass);
     this.listCloseClass = listClass + '--closed';
-    this.listBreakpoints = listBreakpoints;
-    this.openNavList = function () {
-      if (this.listBreakpoints[devWidthBreakpoint]) {
-        this.list.classList.remove(this.listCloseClass);
-      }
-    };
-    this.closeNavList = function () {
-      if (this.listBreakpoints[devWidthBreakpoint] && !this.list.classList.contains(this.listCloseClass)) {
-        this.list.classList.add(this.listCloseClass);
-      }
-    };
-
     this.openCloseNavList = function () {
-      if (this.listBreakpoints[devWidthBreakpoint]) {
-        this.list.classList.toggle(this.listCloseClass);
-        window.console.log(this.listBreakpoints, devWidthBreakpoint, this.listBreakpoints[devWidthBreakpoint]);
-      }
+      this.list.classList.toggle(this.listCloseClass);
     };
   }
 
-  navLists.push(new NavList('site-list', {0: true, 600: true}));//{[breakPoints[0]]:true, [breakPoints[1]]: true, [breakPoints[2]]: false})):
-  navLists.push(new NavList('user-list', {0: true, 600: false}));//{[breakPoints[0]]:true, [breakPoints[1]]: false, [breakPoints[2]]: false}));
+  navLists.push(new NavList('site-list'));
+  navLists.push(new NavList('user-list'));
   
   window.addEventListener('resize', function () {
     windowResizeHandler();
-    if (mainNavBtn.classList.contains('page-header__btn--close')) {
-      for (var i = 0; i < navLists.length; i++) {
-        navLists[i].openNavList();
-      }
-    }
-    if (mainNavBtn.classList.contains('page-header__btn--open')) {
-      for (var i = 0; i < navLists.length; i++) {
-        navLists[i].closeNavList();
-      }
-    }
   });
 
   mainNavBtn.addEventListener('click', function () {
