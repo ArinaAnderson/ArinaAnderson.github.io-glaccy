@@ -44,19 +44,10 @@
 
 'use strict';
 (function () {
-  //OOP:
-  /*var dropdownMenu = {
-    dropdownList: document.querySelector('.site-list__dropdown '),
-    //dropdownListLastLink: this.dropdownList.lastElementChild.firstElementChild,
-    //dropdownWrap: this.dropdownList.parentNode,
-
-    //printLastLink: function () {
-      //console.log(this.dropdownListLastLink);
-    //}
-    defineLastLink: function () {
-      this.dropdownListLastLink = ;
-    },
-  };*/
+  var ENTER_KEYCODE = 13;
+  var SPACE_KEYCODE = 32;
+  var TAB_KEYCODE = 9;
+  var SHIFT_KEYCODE = 16;
 
   var dropdownList = document.querySelector('.site-list__dropdown ');
   var dropdownWrap = dropdownList.parentNode; // dropdownHeader
@@ -69,13 +60,13 @@
 
   //mouse move over drop dropdown menu (item that contains dropdown list and dropdownlist itself) handlers
   //classList.toggle does not work here, so function closeDropdownMenu can't be used..  
-  function dropdownMouseOverHandler(dropdownMouseOverHandler) {
+  function dropdownMouseOverHandler() {
     dropdownList.classList.add('site-list__dropdown--opened');
     dropdownList.classList.remove('site-list__dropdown--closed');
     //dropdownList.classList.toggle('site-list__dropdown--opened');
     //dropdownList.classList.toggle('site-list__dropdown--closed');
   }
-  function dropdownMouseOutHandler(dropdownMouseOverHandler) {
+  function dropdownMouseOutHandler() {
     dropdownList.classList.remove('site-list__dropdown--opened');
     dropdownList.classList.add('site-list__dropdown--closed');
     //dropdownList.classList.toggle('site-list__dropdown--opened');
@@ -131,17 +122,16 @@
 
   document.addEventListener('click', function (evt) {
     if ((evt.currentTarget != dropdownWrap || evt.target != dropdownWrap) && dropdownList.classList.contains('site-list__dropdown--opened')) {
-      console.log('ввввввв', evt.currentTarget, evt.target);
       closeDropdownMenu();
     }
   }, true);
 
 
   dropdownLastLink.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === 9) {
+    if (evt.keyCode === TAB_KEYCODE) {
       dropdownTabPressHandler(evt);
     }
-    if (evt.keyCode === 16) {
+    if (evt.keyCode === SHIFT_KEYCODE) {
       dropdownlShiftPressHandler(evt);
     }
   });
@@ -149,7 +139,7 @@
 
   // navigation menu is made of links, not buttons to be no-js friendly:
   dropdownHeaderLink.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === 13 || evt.keyCode === 32) {
+    if (evt.keyCode === ENTER_KEYCODE || evt.keyCode === SPACE_KEYCODE) {
       evt.preventDefault();//if js is available, links work like buttons
       closeDropdownMenu();
     }
@@ -160,5 +150,4 @@
       evt.preventDefault();
       closeDropdownMenu();
   });*/
-
 })();
