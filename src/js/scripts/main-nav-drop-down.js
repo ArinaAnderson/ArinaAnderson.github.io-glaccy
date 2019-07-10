@@ -5,7 +5,7 @@
   var TAB_KEYCODE = 9;
   var SHIFT_KEYCODE = 16;
 
-  var dropdownList = document.querySelector('.site-list__dropdown ');
+  var dropdownList = document.querySelector('.dropdown__list');;//document.querySelector('.site-list__dropdown');
   var dropdownWrap = dropdownList.parentNode; // dropdownHeader
   var dropdownHeaderLink = dropdownWrap.firstElementChild;//dropdownHeader.querySelector('.site-list__link');
   var dropdownLastLink = dropdownList.lastElementChild.firstElementChild;
@@ -17,21 +17,21 @@
   //mouse move over drop dropdown menu (item that contains dropdown list and dropdownlist itself) handlers
   //classList.toggle does not work here, so function closeDropdownMenu can't be used..  
   function dropdownMouseOverHandler() {
-    dropdownList.classList.add('site-list__dropdown--opened');
-    dropdownList.classList.remove('site-list__dropdown--closed');
+    dropdownList.classList.add('dropdown__list--opened');
+    dropdownList.classList.remove('dropdown__list--closed');
     //dropdownList.classList.toggle('site-list__dropdown--opened');
     //dropdownList.classList.toggle('site-list__dropdown--closed');
   }
   function dropdownMouseOutHandler() {
-    dropdownList.classList.remove('site-list__dropdown--opened');
-    dropdownList.classList.add('site-list__dropdown--closed');
+    dropdownList.classList.remove('dropdown__list--opened');
+    dropdownList.classList.add('dropdown__list--closed');
     //dropdownList.classList.toggle('site-list__dropdown--opened');
     //dropdownList.classList.toggle('site-list__dropdown--closed');
   }
 
   function closeDropdownMenu() {
-    dropdownList.classList.toggle('site-list__dropdown--opened');
-    dropdownList.classList.toggle('site-list__dropdown--closed');
+    dropdownList.classList.toggle('dropdown__list--opened');
+    dropdownList.classList.toggle('dropdown__list--closed');
   }
 
   //tab press on the last link of dropdown list handler:

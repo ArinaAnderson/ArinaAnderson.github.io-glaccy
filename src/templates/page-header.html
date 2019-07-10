@@ -8,26 +8,26 @@
     </button>
     <nav class="page-header__nav  main-nav">
       <ul class="main-nav__list  site-list  site-list--closed">
-        <li class="main-nav__item  site-list__item  site-list__item--dropdown">
-          <a href="catalogue.html" class="main-nav__link  site-list__link site-list__link--active  site-list__link--dropdown">
+        <li class="main-nav__item  site-list__item  site-list__item--dropdown  dropdown">
+          <a href="catalogue.html" class="main-nav__link  site-list__link site-list__link--active  site-list__link--dropdown  dropdown__header">
             <span class="underlined  underlined--active">Каталог</span>
           </a>
           <!--<span class="underlined">Каталог</span>-->
-          <ul class="site-list__dropdown  site-list__dropdown--closed"><!--site-list__dropdown--opened closed-->
-            <li class="site-list__dropdown-item">
-              <a href="catalogue.html" class="site-list__dropdown-link  site-list__dropdown-link--top">Новинки</a>
+          <ul class="site-list__dropdown  dropdown__list  dropdown__list--closed"><!--site-list__dropdown--opened closed-->
+            <li class="dropdown__item">
+              <a href="catalogue.html" class="dropdown__link  dropdown__link--top">Новинки</a>
             </li>
-            <li class="site-list__dropdown-item">
-              <a href="catalogue.html" class="site-list__dropdown-link  site-list__link--active">Сливочное</a>
+            <li class="dropdown__item">
+              <a href="catalogue.html" class="dropdown__link  dropdown__link--active">Сливочное</a>
             </li>
-            <li class="site-list__dropdown-item">
-              <a href="catalogue.html" class="site-list__dropdown-link">Щербеты</a>
+            <li class="dropdown__item">
+              <a href="catalogue.html" class="dropdown__link">Щербеты</a>
             </li>
-            <li class="site-list__dropdown-item">
-              <a href="catalogue.html" class="site-list__dropdown-link">Фруктовый</a>
+            <li class="dropdown__item">
+              <a href="catalogue.html" class="dropdown__link">Фруктовый</a>
             </li>
-            <li class="site-list__dropdown-item">
-              <a href="catalogue.html" class="site-list__dropdown-link  site-list__dropdown-link--last">Мелорин</a>
+            <li class="dropdown__item">
+              <a href="catalogue.html" class="dropdown__link  dropdown__link--last">Мелорин</a>
             </li>
           </ul>
         </li>
@@ -44,19 +44,41 @@
       </ul>
 
       <ul class="main-nav__list  user-list  user-list--closed">
-        <li class="main-nav__item  user-list__item  user-list__item--search">
+        <li class="main-nav__item  user-list__item  user-list__item--search  search"><!--search--opened-->
           <a href="#" class="main-nav__link user-list__link  user-list__search" aria-label="Поиск">
-            Поиск
+            <svg class="user-list__icon  user-list__icon--search" width="17" height="17">
+              <use xlink:href="#icon-search"></use>
+            </svg>
+            <span class="user-list__link-text  user-list__search-text">Поиск</span>
           </a>
+          <div class="search__popup  search__popup  search__popup--closed">
+            <form action="#" class="search__form" autocomplete="off">
+              <p class="search__input-wrap">
+                <input class="search__input" type="text" id="search-input" name="search-input" placeholder="Что ищем?">
+              </p>
+            </form>
+          </div>
         </li>
+
         <li class="main-nav__item  user-list__item">
           <a href="#" class="main-nav__link user-list__link  user-list__login">
-            Вход
+            <svg class="user-list__icon  user-list__icon--login" width="21" height="19">
+              <use xlink:href="#icon-login"></use>
+            </svg>
+            <span class="user-list__link-text  user-list__login-text">Вход</span>
           </a>
         </li>
         <li class="main-nav__item  user-list__item">
           <a href="#" class="main-nav__link user-list__link  user-list__cart">
-            Пусто
+            <svg class="user-list__icon  user-list__icon--cart  user-list__icon--outcart" width="21" height="20">
+              <use xlink:href="#icon-cart"></use>
+            </svg>
+
+            <svg class="user-list__icon  user-list__icon--cart   user-list__icon--incart" width="21" height="20">
+              <use xlink:href="#icon-cart-inside"></use>
+            </svg>
+
+            <span class="user-list__link-text  user-list__cart-text">Пусто</span>
           </a>
         </li>
       </ul>
