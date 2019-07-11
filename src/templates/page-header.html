@@ -46,16 +46,21 @@
       <ul class="main-nav__list  user-list  user-list--closed">
         <li class="main-nav__item  user-list__item  user-list__item--search  search"><!--search--opened-->
           <a href="#" class="main-nav__link user-list__link  user-list__search" aria-label="Поиск">
-            <svg class="user-list__icon  user-list__icon--search" width="17" height="17">
+            <svg class="user-list__icon  user-list__icon--search" width="18" height="17">
               <use xlink:href="#icon-search"></use>
             </svg>
             <span class="user-list__link-text  user-list__search-text">Поиск</span>
           </a>
           <div class="search__popup  search__popup  search__popup--closed">
-            <form action="#" class="search__form" autocomplete="off">
+            <form action="https://echo.htmlacademy.ru"  class="search__form" method="get" autocomplete="off"><!--https://echo.htmlacademy.ru-->
               <p class="search__input-wrap">
                 <input class="search__input" type="text" id="search-input" name="search-input" placeholder="Что ищем?">
               </p>
+              <button type="submit" class="search__submit">
+                <svg class="search__icon" width="18" height="17">
+                  <use xlink:href="#icon-search"></use>
+                </svg>
+              </button>
             </form>
           </div>
         </li>

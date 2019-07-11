@@ -597,7 +597,7 @@ a {
   position: absolute;
   top: 100%;
   left: 0;
-  z-index: 2;
+  z-index: 9;
   width: 100%;
   /*padding: 0;padding-top: 5px;
   margin: 0;*/
@@ -912,11 +912,21 @@ a {
 .page__main-list {
   margin: 0;
 }*/
+.search {
+  position: relative; }
+
 .search__popup {
+  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  left: -20px;
   -webkit-box-flex: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
   width: 230px;
+  width: 100%;
+  width: 100vw;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   background-color: green; }
@@ -933,19 +943,24 @@ a {
   opacity: 1;
   display: block; }
 
-.search--opened a {
+/*.search--opened a  {
   width: auto;
   margin-right: 20px;
-  background-color: olive; }
+
+  background-color: olive;
+}
 
 .search--opened svg {
-  margin-right: 0; }
+  margin-right: 0;
+}
 
 .search--opened span {
-  font-size: 0; }
-
+  font-size: 0
+}*/
 .search__form {
   padding: 20px 15px;
+  padding: 15px 15px;
+  padding-left: calc(20px + 33px + 20px);
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   border-radius: 5px;
@@ -964,6 +979,43 @@ a {
   font-size: 14px;
   border-radius: 5px;
   border: 1px solid #d3d3d2; }
+
+.search__submit {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  left: 20px;
+  z-index: 8;
+  width: auto;
+  height: auto;
+  min-width: 32px;
+  min-height: 32px;
+  /*margin-bottom: 10px;*/
+  /*padding: 0 30px;*/
+  padding: 0 8px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  color: #ffffff;
+  border-radius: 50px;
+  /*certain state*/
+  border: none;
+  border-bottom: 1px solid transparent;
+  background-color: #fff;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%); }
+
+.search__submit:hover,
+.search__submit:focus {
+  background-color: #fbded7; }
+
+.search__submit:active {
+  -webkit-box-shadow: inset 0 2px 1px 0 #696969;
+          box-shadow: inset 0 2px 1px 0 #696969;
+  background-color: #f6b5a5; }
+
+.search__icon {
+  display: block;
+  fill: #000; }
 
 .site-list {
   -webkit-box-pack: start;
@@ -1166,18 +1218,21 @@ a {
         -ms-flex-align: center;
             align-items: center;
     width: 100%;
-    padding-left: 20px;
-    background-color: pink; }
-  .search--opened a {
-    /*width: auto;*/
-    margin-right: 20px;
-    background-color: olive; }
+    padding-left: 20px; }
+  /*.search--opened a  {
+  	margin-right: 20px;
+
+  	background-color: olive;
+  }*/
   .search__popup {
-    position: static;
+    /*position: relative;*/
+    left: 0;
     z-index: 5;
     padding-top: 0;
     /*width: auto;width: calc(100vw - 33px - 20px - 20px);*/
     background-color: green; }
+  .search__submit {
+    /*left: -53px;*/ }
   .site-list {
     position: absolute;
     top: 100%;
@@ -1249,31 +1304,44 @@ a {
     margin-left: auto; }
   .search--opened {
     position: relative;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
     width: auto;
     padding-left: 0;
     z-index: 7; }
-  /*.search__link {*/
-  .search--opened a {
-    -webkit-box-flex: 0;
-        -ms-flex-positive: 0;
-            flex-grow: 0;
-    width: 33px;
-    margin: 0;
-    margin-right: 0;
-    padding-left: 8px;
+  /*.search__link {}*/
+  /*.search--opened a {
+  	flex-grow: 0;
+  	width: 33px;width: auto;
+  	margin: 0;
+  	margin-right: 0;
+  	padding-left: 8px;
     padding-right: 8px;
-    background-color: red; }
+
+  	background-color: red
+  }*/
   .search__popup {
     position: absolute;
     top: 100%;
     right: 0;
+    left: auto;
     width: auto;
     padding-top: 5px; }
+  .search__form {
+    padding: 20px 15px;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    border-radius: 5px;
+    background-color: #f8f7f4; }
   .search__input {
     width: 311px; }
+  .search__submit {
+    top: auto;
+    bottom: 100%;
+    right: 0;
+    left: auto;
+    padding: 0 8px;
+    -webkit-transform: none;
+            transform: none;
+    background-color: #f8f7f4; }
   .site-list {
     position: static;
     width: auto;
