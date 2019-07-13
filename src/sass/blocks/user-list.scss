@@ -32,6 +32,10 @@
   fill: #fff;
 }
 
+.login__footer-link {
+  display: block;
+}
+
 .user-list__link:hover .user-list__icon,
 .user-list__link:focus .user-list__icon,
 .user-list__link:active .user-list__icon {
@@ -44,13 +48,15 @@
 
 .user-list__link:hover .user-list__icon--outcart,
 .user-list__link:focus .user-list__icon--outcart,
-.user-list__link:active .user-list__icon--outcart {
+.user-list__link:active .user-list__icon--outcart,
+.user-list__link--active .user-list__icon--outcart {
   display: none;
 }
 
 .user-list__link:hover .user-list__icon--incart,
 .user-list__link:focus .user-list__icon--incart,
-.user-list__link:active .user-list__icon--incart {
+.user-list__link:active .user-list__icon--incart,
+.user-list__link--active .user-list__icon--incart {
   display: block;
 }
 

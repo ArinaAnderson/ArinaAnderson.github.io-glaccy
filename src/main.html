@@ -43,8 +43,33 @@
 
     //= templates/page-header.html
 
+    <template id="cart-item">
+      <li class="cart__list-line">
+        <button class="cart__btn" type="button">Удалить</button><!--get from added item: array of added items-->
+        <div class="cart__img-wrap">
+          <img class="cart__img" src="img/yellow.png" width="33" height="33">
+        </div>
+        <div class="cart__title"><!--get from added item: array of added items-->
+          Пломбир с апельсиновым джемом
+        </div>
+        <div class="cart__calculation">
+          <span class="cart__amount">1,5 кг</span><!--get from added 
+          item: array of added items-->
+          <span class="cart__unit"> кг</span>
+          <span class="cart__multiply">x</span>
+          <span class="cart__price">300</span><!--get from added item: array of added items-->
+          <span class="cart__currency"> руб.</span>
+        </div>
+        <div class="cart__result">
+          <span class="cart__sum"></span>
+          <span class="cart__currency">руб.</span>
+        </div>
+      </li>
+    </template>
+
 <!--//= templates/footer.html-->
     //= templates/js.html
+
   </body>
 
 </html>

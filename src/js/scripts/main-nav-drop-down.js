@@ -16,7 +16,7 @@
 
   //mouse move over drop dropdown menu (item that contains dropdown list and dropdownlist itself) handlers
   //classList.toggle does not work here, so function closeDropdownMenu can't be used..  
-  function dropdownMouseOverHandler() {
+  function dropdownMouseOverHandler() {//transfer to utils
     dropdownList.classList.add('dropdown__list--opened');
     dropdownList.classList.remove('dropdown__list--closed');
     //dropdownList.classList.toggle('site-list__dropdown--opened');
