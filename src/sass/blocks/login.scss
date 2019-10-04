@@ -1,37 +1,16 @@
 .login {
-  position: relative;
-}
-
-.login__popup {
-  position: absolute;
-  top: calc(100% + 10px);
-  left: 0;
-
-  width: 230px;width: 100%;
-
+  width: 100%;
   box-sizing: border-box;
 }
 
-.login__popup--closed {
-  display: none;
-
-  visibility: hidden;
-  opacity: 0;
-  transition: all 0.5s ease;
-}
-
-.login__popup--opened {
-  visibility: visible;
-  opacity: 1;
-  display: block;
-}
-
 .login__form {
+  width: 100%;
   padding: 20px 20px;
   box-sizing: border-box;
 
   border-radius: 5px;
   background-color: #f8f7f4;
+  box-shadow: 0 20px 20px 0px #333333
 }
 
 .login__input-wrap {
@@ -87,12 +66,7 @@
 }
 
 @media (min-width: 600px) {
-  .login__popup {
-    left: auto;
-    top: 100%;
-    right: 0;
-
-    width: 279px;
-    padding-top: 8px;
+  .login {
+    
   }
 }

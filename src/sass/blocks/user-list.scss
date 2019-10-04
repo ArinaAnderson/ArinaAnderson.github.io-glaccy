@@ -1,9 +1,8 @@
 .user-list {
-  flex-basis: 38%;flex-basis: auto;
   min-width: 28%;
-  flex-shrink: 1;
 
-  background-color: rgba(10, 140, 190, 0.5);
+  /*background-color: rgba(10, 140, 190, 0.5);
+  background-color: rgba(255, 255, 255, 0.2);*/
 }
 
 .user-list--closed {
@@ -11,29 +10,40 @@
 }
 
 .user-list__item {
-  margin-bottom: 10px;
+  /*background-color: rgba(255, 255, 255, 0.2);*/
+}
 
-  font-size: 14px;
-  line-height: 16px;
-
-  background-color: rgba(255, 255, 255, 0.2);
+.user-list__item--search,
+.user-list__item--login,
+.user-list__item--cart {
+  position: relative;
 }
 
 .user-list__link  {
   height: auto;
 
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+
   background-color: rgba(255, 255, 255, 0.2);
+}
+
+.user-list__link--search {
+  width: 100%;
+  padding-left: 44px;
+
+  background-image: url("../img/search.svg");
+  background-repeat: no-repeat;
+  background-position: 16px 50%;
+  border: none;
 }
 
 .user-list__icon {
   display: block;
-  margin-right: 8px;
+  margin-right: 7px;
 
   fill: #fff;
-}
-
-.login__footer-link {
-  display: block;
 }
 
 .user-list__link:hover .user-list__icon,
@@ -42,35 +52,73 @@
   fill: #000;
 }
 
+.user-list__link--search:hover,
+.user-list__link--search:focus,
+.user-list__link--search:active {
+  background-image: url("../img/search-black.svg");
+}
+
+.user-list__link:active {
+  box-shadow: inset 0 2px 1px 0 #696969;
+}
+
 .user-list__icon--incart {
   display: none;
 }
 
-.user-list__link:hover .user-list__icon--outcart,
-.user-list__link:focus .user-list__icon--outcart,
-.user-list__link:active .user-list__icon--outcart,
-.user-list__link--active .user-list__icon--outcart {
-  display: none;
-}
+.user-list__link--full-cart {
+  color: #000;
 
-.user-list__link:hover .user-list__icon--incart,
-.user-list__link:focus .user-list__icon--incart,
-.user-list__link:active .user-list__icon--incart,
-.user-list__link--active .user-list__icon--incart {
+  background-color: #fff;
+}
+.user-list__link--full-cart  .user-list__icon--incart{
   display: block;
+}
+.user-list__link--full-cart  .user-list__icon--outcart{
+  display: none;
 }
 
 .user-list__link-text {
   display: block;
 }
 
+.user-list__popup {
+  position: absolute;
+}
 
+.user-list__popup--search {
+  z-index: 7;
+}
 
+.user-list__popup--login {
+  z-index: 6;
+}
+
+.user-list__popup--cart {
+  z-index: 5;
+}
+
+.user-list__popup--search,
+.user-list__popup--login,
+.user-list__popup--cart {
+  left: 0;
+
+  width: 85%;
+  min-width: 280px;
+  padding-top: 5px;
+  box-sizing: border-box;
+}
 
 @media (min-width: 600px) {
   .user-list {
     display: flex;
+    flex-shrink: 1;
+    width: 100%;width: 88%;
+    flex-wrap: wrap;
     justify-content: flex-end;
+    padding-right: 0;
+
+    background-color: transparent;
   }
 
   .user-list--closed {
@@ -78,7 +126,7 @@
   }
 
   .user-list__item {
-    margin-left: 10px;
+    margin-left: 9px;
   }
 
   .user-list__item:first-child {
@@ -93,18 +141,62 @@
     font-size: 0;
   }
 
+  .user-list__link--search {
+    padding-left: 8px;
+    padding-right: 8px;
+
+    background-image: url("../img/search.svg");
+    background-repeat: no-repeat;
+    background-position: 50%;
+  }
+
   .user-list__icon {
     margin-right: 0;
+  }
+
+  .user-list__popup--cart {
+    left: -310px;
+
+    width: 540px;
+  }
+
+  .user-list__popup--login {
+    left: auto;
+    right: 0;
+
+    width: 279px;
+  }
+
+  .user-list__popup--search {
+    left: -$sizeM;left: -245px;
+
+    width: 340px;
+
+    /*width: 100vw;width: 340px;*/
   }
 }
 
 @media (min-width: 900px) {
+  .user-list {
+    width: auto;
+    width: 44.052%;width: 43.5%;/*42*/
+  }
+
   .user-list__link {
+    padding-left: 16px;
+    padding-right: 16px;
+
     font-size: 14px;
   }
 
-  .user-list__search {
+  .user-list__link--search {
+    /*left: -300px;*/
+
+    padding-left: 8px;
+    padding-right: 8px;
+
     font-size: 0;
+
   }
 
   .user-list__icon--cart,
@@ -112,5 +204,9 @@
     margin-right: 8px;
   }
 
-
+  .user-list__popup--cart {
+    left: auto;
+    top: 100%;
+    right: 0;
+  }
 }

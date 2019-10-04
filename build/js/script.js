@@ -1,5 +1,68 @@
 'use strict';
 (function () {
+  const keyCodes = {
+    LEFT: 37,
+    RIGHT: 39,
+    UP: 38,
+    DOWN: 40,
+  };
+  //const {LEFT, RIGHT, UP, DOWN} = keyCodes;
+
+  const directionsToArrowKeys = {
+    horizontal: ['LEFT', 'RIGHT'],
+    vertical: ['UP', 'DOWN']
+  }
+  const {horizontal, vertical} = directionsToArrowKeys;
+
+
+  // Constructor of arrow keys parametres for different arrays of group elements (like ddHeaders, etc):
+  function ArrKeysParams(activeElems) {
+    this.range = [0, activeElems.length - 1];
+    this.edgeIndexs37 = this.range.slice();
+    this.edgeIndexs38 = this.range.slice();
+    this.edgeIndexs39 = this.range.slice().reverse();
+    this.edgeIndexs40 = this.range.slice().reverse();
+  }
+
+  ArrKeysParams.prototype.sign37 = -1;
+  ArrKeysParams.prototype.sign39 = 1;
+  ArrKeysParams.prototype.sign38 = -1;
+  ArrKeysParams.prototype.sign40 = 1;
+
+
+  function getArrKeyEvtNextIndx(evt, list, ddElemArrParams) {
+    const nextElemIndx = list.indexOf(evt.target) === ddElemArrParams['edgeIndexs' + evt.keyCode][0] ?
+      ddElemArrParams['edgeIndexs' + evt.keyCode][1] :
+      list.indexOf(evt.target) + ddElemArrParams['sign' + evt.keyCode];
+    return nextElemIndx;
+  }
+
+  window.arrowNav = {
+    navigateByArrowKey: function (focusables, focusablesArray, {
+      moveLeftRight = true,
+      focusableParent = document} = {}
+    ) {
+      const direction = moveLeftRight ? horizontal : vertical;
+      const focusablesArrKeysParams = new ArrKeysParams(focusablesArray);
+
+      focusables.forEach(function (elem) {
+        elem.addEventListener('keydown', function (evt) {
+          if (evt.keyCode === keyCodes[direction[0]] ||
+            evt.keyCode === keyCodes[direction[1]]) {
+            let nextElemIndx;
+            nextElemIndx = getArrKeyEvtNextIndx(evt, focusablesArray, focusablesArrKeysParams);
+            evt.target.blur();
+            focusablesArray[nextElemIndx].focus();
+          }
+        });
+      });  
+    },
+  };
+
+})();
+
+'use strict';
+(function () {/*
   var ENTER_KEYCODE = 13;
   var SPACE_KEYCODE = 32;
   var ESC_KEYCODE = 27;
@@ -13,7 +76,21 @@
   var cartForm = cartPopup.querySelector('form');
   var cartLastItem = cartForm.lastElementChild;
 
-  var backMove = false; // false - no Shift pressed
+  var cartLinkBackMove = false; // false - no Shift pressed
+  var cartBackMove = false;
+
+  //to redo later with constructor all these toggleParams objects:
+  //*classes cart and cart__popup +  '--opened', '--closed'
+  var cartToggleParams = {
+    toggleParent: 'cart--opened',
+    toggleChildOpened: 'cart__popup--opened',
+    toggleChildClosed: 'cart__popup--closed',
+  };
+  
+  var backMoves = {
+    'cart': false,
+    'cart__popup': false
+  };
 
   var elemsToClasses = {
     cartParent: 'cart--opened',
@@ -21,30 +98,59 @@
     cartPopupClosed: 'cart__popup--closed'
   };
 
-  function cartItemTabPressHandler(evt, cartParent, cartPopup) {
+  //closure to create different togglers:
+  function defineToggler(toggleParent, toggleChild, toggleParams) {
+    return function() {
+      toggleParent.classList.toggle(toggleParams.toggleParent);
+      toggleChild.classList.toggle(toggleParams.toggleChildClosed);
+      toggleChild.classList.toggle(toggleParams.toggleChildOpened);
+    }
+  }
+
+  var toggleCart = defineToggler(cart, cartPopup, cartToggleParams);
+function doTest() {
+  alert('ddddd');
+}
+  // toggleElemClass is either 'cart' (toggleParent class)  or  'cart__popup' (toggleChild class):
+  function itemTabPressHandler(toggleElemClass, callback) {
     // pressing Tab on the last link of dropdwon list closes the dropdown in case the focus moves forward, out of the dropdown list:
-    if (!backMove) {
-      toggleCartPopup(cartParent, cartPopup)
+    if (!backMoves[toggleElemClass]) {
+      callback();
     }
   }
 
-  function cartItemShiftPressHandler(evt) {
-    backMove = true;
+  function itemShiftPressHandler(toggleElemClass) {
+    backMoves[toggleElemClass] = true;
    
-    function cartItemTabShiftPressHandler(evtTab) {
+    function itemTabShiftPressHandler() {
       //when Shift is held down, pressing Tab does not close the dropdwon list anymore:
-      document.removeEventListener('keyup', cartItemTabPressHandler);
-      backMove = false;
+      document.removeEventListener('keyup', itemTabPressHandler);
+      backMoves[toggleElemClass] = false;
     }
-
-    document.addEventListener('keyup', cartItemTabShiftPressHandler);
+    document.addEventListener('keyup', itemTabShiftPressHandler);
   }
 
-  function toggleCartPopup(cartParent, cartPopup) {
-    cartParent.classList.toggle(elemsToClasses.cartParent);
-    cartPopup.classList.toggle(elemsToClasses.cartPopupClosed);
-    cartPopup.classList.toggle(elemsToClasses.cartPopupOpened);
-  }
+  cartLastItem.addEventListener('keydown', function (evt) {
+    //this is a handler cartLastItemTabHandler(evt): OR  even for both the same
+    if (evt.keyCode === TAB_KEYCODE) {
+      itemTabPressHandler('cart__popup', toggleCart);
+    }
+    if (evt.keyCode === SHIFT_KEYCODE) {
+      itemShiftPressHandler('cart__popup');
+    }
+  });
+
+  cartLink.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === TAB_KEYCODE) {
+      itemTabPressHandler('cart', toggleCart);
+    }
+    if (evt.keyCode === SHIFT_KEYCODE) {
+      itemShiftPressHandler('cart');
+      
+    }
+  });
+
+
 
   cart.addEventListener('mouseover', function (evt) {
     cartPopup.classList.add(elemsToClasses.cartPopupOpened);
@@ -54,63 +160,255 @@
   cart.addEventListener('mouseout', function (evt) {
     cartPopup.classList.remove(elemsToClasses.cartPopupOpened);
     cartPopup.classList.add(elemsToClasses.cartPopupClosed);
-  }); 
-
-  cartLink.addEventListener('keypress', function (evt) {
-    if (evt.keyCode == SPACE_KEYCODE) {
-      evt.preventDefault();
-      toggleCartPopup(cart, cartPopup);
-    }
   });
+
+ 
 
   cartSubmit.addEventListener('click', function (evt) {
     if (!cartList.children.length) {
       evt.preventDefault();
-      toggleCartPopup(cart, cartPopup);
-      /*search.classList.toggle('search--opened');
-      searchPopup.classList.toggle('search__popup--opened');
-      searchPopup.classList.toggle('search__popup--closed');*/
+      toggleCart();
       return;
     }
-    toggleCartPopup(cart, cartPopup);
+    toggleCart();
   });
 
   cartSubmit.addEventListener('keydown', function (evt) {
-    if (evt.keyCode == SPACE_KEYCODE) {
+    if (evt.keyCode == SPACE_KEYCODE || evt.keyCode == ENTER_KEYCODE) {
+      evt.preventDefault();
       if (!cartList.children.length) {
-        evt.preventDefault();
-        toggleCartPopup(cart, cartPopup);
+        toggleCart();
         return;
       }
-      toggleCartPopup(cart, cartPopup);
+      toggleCart();
     }
-  });
+  });*/
 
+/*it is not needed since cart popup gets activated by hovering
   document.addEventListener('keydown', function (evt) {
     if (evt.keyCode == ESC_KEYCODE && cart.classList.contains('cart--opened')) {
       toggleCartPopup(cart, cartPopup);
     }
-  });
+  });*/
 
+  /*cart popup works on hover:
   document.addEventListener('mousedown', function (evt) {
     if (!cart.contains(evt.target) && !cartPopup.contains(evt.target) && evt.target !== cart && evt.target !== cartPopup && cart.classList.contains('cart--opened')) {
       toggleCartPopup(cart, cartPopup);
     }
-  });
+  });*/
 
-  cartLastItem.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === TAB_KEYCODE) {
-      cartItemTabPressHandler(evt);
-    }
-    if (evt.keyCode === SHIFT_KEYCODE) {
-      cartItemShiftPressHandler(evt);
-    }
-  });
 
 })();
 
 'use strict';
 (function () {
+  const keyCodes = {
+    ENTER: 13,
+    SPACE: 32,
+    TAB: 9,
+    SHIFT: 16
+  };
+  const {ENTER, SPACE, TAB, SHIFT} = keyCodes;
+
+  const ddParents = document.querySelectorAll('.dropdown');
+  const ddHeaders = document.querySelectorAll('.dropdown__header');
+  const ddOverlay = document.querySelector('.dropdown-overlay');
+  let activeEl = null;
+  let activeElToggle = false;
+  let thisDdcloseBtn = null;
+
+  function unloadingWebsite() {
+    console.log(activeEl);
+    const tt = document.querySelector('dropdown--focus');
+    const uu = document.querySelector('dropdown--over');
+    console.log(tt, uu);
+    if (tt) {
+      tt.classList.remove('dropdown--focus');
+    }
+    if (uu) {
+      uu.classList.remove('dropdown--over');
+    }
+    //document.body.classList.add("unloaded");
+   }
+
+
+  // function removes/adds focus class on dropdown parent element:  --> UTILS.js
+  function toggleDropdown(activity, parentElem) {
+    parentElem.classList.toggle('dropdown--' + activity);
+  }
+  function addClass(activity, parentElem) {
+    parentElem.classList.add('dropdown--' + activity);
+  }
+  function removeClass(activity, parentElem) {
+    parentElem.classList.remove('dropdown--' + activity);
+  }
+  
+
+  function docClickHandler(evt) {
+    if (activeEl && !activeEl.contains(evt.target)) {
+      closeDdMenu(activeEl);
+    }
+  }
+
+  function docEscPressHandler(evt) {
+    window.utils.isEscPressed(evt, function () {
+      const activeElHeader = activeEl.querySelector('.dropdown__header');
+      activeElHeader.focus();
+      //activeEl.removeEventListener('blur', ddItemBlurHandler, true);//moved to clseDdMenu
+      closeDdMenu(activeEl);
+    });
+  }
+
+  function ddCloseBtnClickHandler(evt) {
+    const activeElHeader = activeEl.querySelector('.dropdown__header');
+    closeDdMenu(activeEl);
+  }
+
+  function openDdMenu(elem) {
+    activeElToggle = true;
+
+    addClass('focus', elem);
+    elem.addEventListener('blur', ddItemBlurHandler, true);
+    activeEl = elem;
+
+    //activeEl.classList.remove('dropdown--over');// last measure for SAFARI
+    thisDdcloseBtn = activeEl.querySelector('.dropdown__close-btn');
+    if (thisDdcloseBtn) {
+      thisDdcloseBtn.classList.remove('dropdown__close-btn--none');
+    }
+
+    document.addEventListener('keydown', docEscPressHandler);
+  }
+
+  function closeDdMenu(elem) {
+    activeElToggle = false;
+
+    removeClass('focus', elem);
+    elem.removeEventListener('blur', ddItemBlurHandler, true);
+    activeEl = null;
+
+    if (thisDdcloseBtn) {
+      thisDdcloseBtn.classList.add('dropdown__close-btn--none');
+    }
+
+    document.removeEventListener('keydown', docEscPressHandler);
+  }
+
+  function ddItemFocusHandler(evt, btn) {
+    if (!evt.currentTarget.classList.contains('dropdown--focus')) {
+      openDdMenu(evt.currentTarget);
+    }
+  }
+
+  function ddItemBlurHandler(evt) {
+    console.log('BLUR');
+    const blurElem = evt.currentTarget;
+    function focusHandler(evtFocus) {
+      if (!blurElem.classList.contains(evtFocus.target)) {
+        closeDdMenu(blurElem);
+      }
+      document.removeEventListener('focus', focusHandler, true);
+    }
+    document.addEventListener('focus', focusHandler, true);
+  }
+
+  function ddHeaderEnterSpaceHandler(evt) {
+    evt.preventDefault();
+    if (!evt.currentTarget.classList.contains('dropdown--focus')) {
+      openDdMenu(evt.currentTarget);
+    }
+  }
+
+// replace toogle for add and remove ('dropdown--focus')
+
+  ddParents.forEach(function (item, key) {
+    const ddHeader = item.querySelector('.dropdown__header');
+    const ddChild = item.querySelector('.dropdown__child');
+    const ddCloseBtn = item.querySelector('.dropdown__close-btn');
+
+    function ddParentMouseOverHadnler(evt) {
+      toggleDropdown('over', item);
+    }
+    function ddParentMouseOutHadnler(evt) {
+      toggleDropdown('over', item);
+    }
+
+    item.addEventListener('mouseover', ddParentMouseOverHadnler);
+    item.addEventListener('mouseout', ddParentMouseOutHadnler);
+
+
+    //item.addEventListener('blur', ddItemBlurHandler, true);
+    item.addEventListener('focus', ddItemFocusHandler, true);
+
+    
+    ddHeader.addEventListener('mousedown', function (evt) {
+      evt.preventDefault();
+      //if (activeElToggle) {
+        //closeDdMenu(activeEl);
+        //ddHeader.blur();
+      //} else {
+        ddHeader.focus();
+      //}//SAFARI FIX*/
+    });
+
+    if (ddCloseBtn) {
+      ddCloseBtn.addEventListener('click', ddCloseBtnClickHandler);
+    }
+
+
+    ddHeader.addEventListener('keydown', function (evt) {
+      window.utils.isEnterPressed(evt, function () {
+        evt.preventDefault();
+        if (!item.classList.contains('dropdown--focus')) {
+          openDdMenu(item);
+        }
+      });      
+    });
+    ddHeader.addEventListener('keydown', function (evt) {
+      window.utils.isSpacePressed(evt, function () {
+        evt.preventDefault();
+        if (!item.classList.contains('dropdown--focus')) {
+          openDdMenu(item);
+        }
+      });      
+    });
+
+    const ddFocusables = item.querySelectorAll('.dropdown__focusable');
+    const ddFocusablesArray = Array.prototype.slice.call(ddFocusables);
+    window.arrowNav.navigateByArrowKey(ddFocusables, ddFocusablesArray, {
+      moveLeftRight: false,
+      focusableParent: item
+    });
+
+    window.addEventListener('load', function () {
+      console.log('LOAD!!!!');
+      ddFocusablesArray.forEach(function (it) {
+        if (ddChild.contains(it)) {
+          window.utils.defineTabIndex(it, true);
+        }
+      });
+    })
+  });
+
+/*window.addEventListener("pagehide", function() {
+    unloadingWebsite();
+});
+window.addEventListener("pageshow", function() {
+    // You can use the pageshow function if required to double ensure that everything is reset on the page load.
+    // Most of the time the "pagehide" event will provide the solution.
+    unloadingWebsite();
+});
+window.addEventListener("load", function() {
+    // You can use the pageshow function if required to double ensure that everything is reset on the page load.
+    // Most of the time the "pagehide" event will provide the solution.
+    unloadingWebsite();
+});*/
+  document.addEventListener('click', docClickHandler);
+})();
+
+'use strict';
+(function () {/*
   var ENTER_KEYCODE = 13;
   var SPACE_KEYCODE = 32;
   var ESC_KEYCODE = 27;
@@ -178,7 +476,7 @@
       toggleLoginPopup(login, loginPopup);
     }
   });
-
+*/
 })();
 
 'use strict';
@@ -203,9 +501,10 @@
   function NavList(listClass) {
     this.list = document.querySelector('.' + listClass);
     this.listCloseClass = listClass + '--closed';
-    this.openCloseNavList = function () {
-      this.list.classList.toggle(this.listCloseClass);
-    };
+  }
+
+  NavList.prototype.openCloseNavList = function () {
+    this.list.classList.toggle(this.listCloseClass);
   }
 
   navLists.push(new NavList('site-list'));
@@ -227,195 +526,209 @@
 
 'use strict';
 (function () {
-  var ENTER_KEYCODE = 13;
-  var SPACE_KEYCODE = 32;
-  var TAB_KEYCODE = 9;
-  var SHIFT_KEYCODE = 16;
+  const keyCodes = {
+    ENTER: 13,
+    SPACE: 32,
+    TAB: 9,
+    SHIFT: 16
+  };
+  const {ENTER, SPACE, TAB, SHIFT} = keyCodes;
 
-  var dropdownList = document.querySelector('.dropdown__list');;//document.querySelector('.site-list__dropdown');
-  var dropdownWrap = dropdownList.parentNode; // dropdownHeader
-  var dropdownHeaderLink = dropdownWrap.firstElementChild;//dropdownHeader.querySelector('.site-list__link');
-  var dropdownLastLink = dropdownList.lastElementChild.firstElementChild;
-  var dropdownWrap = dropdownList.parentNode; // dropdownHeader
+  const ppParents = document.querySelectorAll('.popup');
+  const ppOverlay = document.querySelector('.dropdown-overlay');
+  let activeEl = null;
+  let activeElToggle = false;
 
-  //indicator of using Shift on the last link of dropdwon menu:
-  var backMove = false; // false - no Shift pressed
-
-  //mouse move over drop dropdown menu (item that contains dropdown list and dropdownlist itself) handlers
-  //classList.toggle does not work here, so function closeDropdownMenu can't be used..  
-  function dropdownMouseOverHandler() {//transfer to utils
-    dropdownList.classList.add('dropdown__list--opened');
-    dropdownList.classList.remove('dropdown__list--closed');
-    //dropdownList.classList.toggle('site-list__dropdown--opened');
-    //dropdownList.classList.toggle('site-list__dropdown--closed');
+  function togglePopup(activity, parentElem) {
+    parentElem.classList.toggle('popup--' + activity);
   }
-  function dropdownMouseOutHandler() {
-    dropdownList.classList.remove('dropdown__list--opened');
-    dropdownList.classList.add('dropdown__list--closed');
-    //dropdownList.classList.toggle('site-list__dropdown--opened');
-    //dropdownList.classList.toggle('site-list__dropdown--closed');
+  function addClass(activity, parentElem) {
+    parentElem.classList.add('popup--' + activity);
   }
-
-  function closeDropdownMenu() {
-    dropdownList.classList.toggle('dropdown__list--opened');
-    dropdownList.classList.toggle('dropdown__list--closed');
+  function removeClass(activity, parentElem) {
+    parentElem.classList.remove('popup--' + activity);
   }
+  
 
-  //tab press on the last link of dropdown list handler:
-  function dropdownTabPressHandler(evt) {
-    // pressing Tab on the last link of dropdwon list closes the dropdown in case the focus moves forward, out of the dropdown list:
-    if (!backMove) {
-      closeDropdownMenu();
+  function docClickHandler(evt) {
+    if (activeEl && !activeEl.contains(evt.target)) {
+      closePpMenu(activeEl);
     }
   }
 
-  //shift press on the last link of dropdwon list handler:
-  function dropdownlShiftPressHandler(evt) {
-    backMove = true;
-   
-    function dropdownTabShiftPressHandler(evtTab) {
-      //when Shift is held down, pressing Tab does not close the dropdwon list anymore:
-      document.removeEventListener('keyup', dropdownTabPressHandler);
-      backMove = false;
-    }
-
-    document.addEventListener('keyup', dropdownTabShiftPressHandler);
+  function docEscPressHandler(evt) {
+    window.utils.isEscPressed(evt, function () {
+      const activeElHeader = activeEl.querySelector('.popup__header');
+      activeElHeader.focus();
+      closePpMenu(activeEl);
+    });
   }
 
-  dropdownWrap.addEventListener('mouseover', dropdownMouseOverHandler);
-  dropdownWrap.addEventListener('mouseout', dropdownMouseOutHandler);
+  function ppCloseBtnClickHandler(evt) {
+    const activeElHeader = activeEl.querySelector('.popup__header');
+    closePpMenu(activeEl);
+  }
 
-  //when dropdown list is opened (by focus/clicking), a chance mouse move over it should not close it:
-  /*dropdownWrap.addEventListener('focus', function () {
-    if (dropdownList.classList.contains('site-list__dropdown--opened')) {
-      dropdownWrap.removeEventListener('mouseover', dropdownMouseOverHandler);
-      dropdownWrap.removeEventListener('mouseout', dropdownMouseOutHandler);
-    } 
-    if (!dropdownList.classList.contains('site-list__dropdown--opened')) {
-      dropdownWrap.addEventListener('mouseover', dropdownMouseOverHandler);
-      dropdownWrap.addEventListener('mouseout', dropdownMouseOutHandler);
+  function openPpMenu(elem) {
+    activeElToggle = true;
+
+    addClass('focus', elem);
+    elem.addEventListener('blur', ppItemBlurHandler, true);
+    activeEl = elem;
+
+    document.addEventListener('keydown', docEscPressHandler);
+  }
+
+  function closePpMenu(elem) {
+    activeElToggle = false;
+
+    removeClass('focus', elem);
+    elem.removeEventListener('blur', ppItemBlurHandler, true);
+    activeEl = null;
+
+    document.removeEventListener('keydown', docEscPressHandler);
+  }
+
+  function ppItemFocusHandler(evt, btn) {
+    if (!evt.currentTarget.classList.contains('popup--focus')) {
+      openPpMenu(evt.currentTarget);
     }
-  }, true);
+  }
 
-  // return of listeners of mouse move when focus is away from dropdown menu:
-  dropdownWrap.addEventListener('blur', function () {
-    dropdownWrap.addEventListener('mouseover', dropdownMouseOverHandler);
-    dropdownWrap.addEventListener('mouseout', dropdownMouseOutHandler);
-  }, true);*/
-
-  document.addEventListener('click', function (evt) {
-    if ((evt.currentTarget != dropdownWrap || evt.target != dropdownWrap) && dropdownList.classList.contains('site-list__dropdown--opened')) {
-      closeDropdownMenu();
+  function ppItemBlurHandler(evt) {
+    console.log('BLUR');
+    const blurElem = evt.currentTarget;
+    function focusHandler(evtFocus) {
+      if (!blurElem.classList.contains(evtFocus.target)) {
+        closePpMenu(blurElem);
+      }
+      document.removeEventListener('focus', focusHandler, true);
     }
-  }, true);
+    document.addEventListener('focus', focusHandler, true);
+  }
+
+  ppParents.forEach(function (item, key) {
+    item.querySelector('.popup__box').classList.remove('popup__box--no-js');
+
+    const ppHeader = item.querySelector('.popup__header');
+    const ppChild = item.querySelector('.popup__child');
+
+    function ppParentMouseOverHadnler(evt) {
+      togglePopup('over', item);
+    }
+    function ppParentMouseOutHadnler(evt) {
+      togglePopup('over', item);
+    }
+
+    item.addEventListener('mouseover', ppParentMouseOverHadnler);
+    item.addEventListener('mouseout', ppParentMouseOutHadnler);
 
 
-  dropdownLastLink.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === TAB_KEYCODE) {
-      dropdownTabPressHandler(evt);
-    }
-    if (evt.keyCode === SHIFT_KEYCODE) {
-      dropdownlShiftPressHandler(evt);
-    }
+    //item.addEventListener('blur', ddItemBlurHandler, true);
+    item.addEventListener('focus', ppItemFocusHandler, true);
+
+    ppHeader.addEventListener('click', function (evt) {//'mousedown'
+      if (evt.currentTarget.tagName != 'BUTTON' || evt.target.tagName != 'BUTTON') {
+        evt.preventDefault();
+      }
+      ppHeader.focus();//SAFARI FIX*/
+    });
+
+    ppHeader.addEventListener('keydown', function (evt) {
+      window.utils.isEnterPressed(evt, function () {
+        if (evt.currentTarget.tagName !== 'BUTTON' || evt.target.tagName !== 'BUTTON') {
+          evt.preventDefault();
+        }
+        if (!item.classList.contains('popup--focus')) {
+          openPpMenu(item);
+        }
+      });      
+    });
+    ppHeader.addEventListener('keydown', function (evt) {
+      window.utils.isSpacePressed(evt, function () {
+        if (evt.currentTarget.tagName !== 'BUTTON' || evt.target.tagName !== 'BUTTON') {
+          evt.preventDefault();
+        }
+        if (!item.classList.contains('popup--focus')) {
+          openPpMenu(item);
+        }
+      });      
+    });
   });
-
-
-  // navigation menu is made of links, not buttons to be no-js friendly:
-  dropdownHeaderLink.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ENTER_KEYCODE || evt.keyCode === SPACE_KEYCODE) {
-      evt.preventDefault();//if js is available, links work like buttons
-      closeDropdownMenu();
-    }
-  });
-
-
-  /*dropdownHeaderLink.addEventListener('click', function (evt) {
-      evt.preventDefault();
-      closeDropdownMenu();
-  });*/
+  document.addEventListener('click', docClickHandler);
 })();
 
 'use strict';
 (function () {
-  var ENTER_KEYCODE = 13;
-  var SPACE_KEYCODE = 32;
-  var ESC_KEYCODE = 27;
-  var search = document.querySelector('.search');
-  var searchLink = search.querySelector('a');
-  var searchPopup = document.querySelector('.search__popup');
-  var searchSubmit = searchPopup.querySelector('button');
-  var searchInput = searchPopup.querySelector('input');
+  const searchForm = document.querySelector('.search');
+  const searchInput = searchForm.querySelector('.search__input');
+  const searchSubmit = searchForm.querySelector('button[type="submit"]'); 
 
-  var elemsToClasses = {
-    searchParent: 'search--opened',
-    searchPopupOpened: 'search__popup--opened',
-    searchPopupClosed: 'search__popup--closed'
-  };
-
-  function toggleSearchPopup(searchParent, searchPopup) {
-    searchParent.classList.toggle(elemsToClasses.searchParent);
-    searchPopup.classList.toggle(elemsToClasses.searchPopupClosed);
-    searchPopup.classList.toggle(elemsToClasses.searchPopupOpened);
-  }
-
-  searchLink.addEventListener('click', function (evt) {
-    evt.preventDefault();
-    toggleSearchPopup(search, searchPopup);
-  });
-
-  searchLink.addEventListener('keypress', function (evt) {
-    if (evt.keyCode == SPACE_KEYCODE) {
-      evt.preventDefault();
-      toggleSearchPopup(search, searchPopup);
+  /*function searchInputChangeHandler(evt) {
+    if (searchInput.value.trim()) {
+      searchSubmit.disabled = false;
+    } else {
+      searchSubmit.disabled = true;
     }
-  });
-
-  /*search.addEventListener('mouseover', function (evt) {
-    search.classList.add('search--opened');
-    searchPopup.classList.add('search__popup--opened');
-    searchPopup.classList.remove('search__popup--closed');
-  });
-
-  search.addEventListener('mouseout', function (evt) {
-    search.classList.remove('search--opened');
-    searchPopup.classList.remove('search__popup--opened');
-    searchPopup.classList.add('search__popup--closed');
-  });*/
-
-
-  searchSubmit.addEventListener('click', function (evt) {
+  }
+  searchInput.addEventListener('change', searchInputChangeHandler);*/
+  function searcBtnPressHandler(evt) {
     if (!searchInput.value) {
       evt.preventDefault();
-      toggleSearchPopup(search, searchPopup);
-      /*search.classList.toggle('search--opened');
-      searchPopup.classList.toggle('search__popup--opened');
-      searchPopup.classList.toggle('search__popup--closed');*/
-      return;
     }
-    toggleSearchPopup(search, searchPopup);
-  });
+  }
 
-  searchSubmit.addEventListener('keydown', function (evt) {
-    if (evt.keyCode == SPACE_KEYCODE) {
-      if (!searchInput.value) {
-        evt.preventDefault();
-        toggleSearchPopup(search, searchPopup);
-        return;
+  searchSubmit.addEventListener('click', searcBtnPressHandler);
+  
+})();
+
+'use strict';
+(function () {
+  const siteList = document.querySelector('.site-list');
+  const siteListLinks = document.querySelectorAll('.site-list__link');
+  const siteListLinksArray = Array.prototype.slice.call(siteListLinks);
+  window.arrowNav.navigateByArrowKey(siteListLinks, siteListLinksArray, {focusableParent: siteList});
+})();
+
+'use strict';
+(function () {
+  const userList = document.querySelector('.user-list');
+  const userListLinks = document.querySelectorAll('.user-list__link');
+  const userListLinksArray = Array.prototype.slice.call(userListLinks);
+  window.arrowNav.navigateByArrowKey(userListLinks, userListLinksArray, {focusableParent: userList});
+})();
+
+'use strict';
+(function () {
+  const keyCodes = {
+    ESC: 27,
+    ENTER: 13,
+    SPACE: 32,
+    TAB: 9,
+    SHIFT: 16
+  };
+  const {ESC, ENTER, SPACE, TAB, SHIFT} = keyCodes;
+
+
+  window.utils = {
+    defineTabIndex: function (elem, disable) {
+      elem.tabIndex = disable ? -1 : 0;
+    },
+    isEscPressed: function (evt, action) {
+      if (evt.keyCode === ESC) {
+        action();
       }
-      toggleSearchPopup(search, searchPopup);
+    },
+    isEnterPressed: function (evt, action) {
+      if (evt.keyCode === ENTER) {
+        action();
+      }
+    },
+    isSpacePressed: function (evt, action) {
+      if (evt.keyCode === SPACE) {
+        action();
+      }
     }
-  });
-
-  document.addEventListener('keydown', function (evt) {
-    if (evt.keyCode == ESC_KEYCODE && search.classList.contains('search--opened')) {
-      toggleSearchPopup(search, searchPopup);
-    }
-  });
-
-  document.addEventListener('mousedown', function (evt) {
-    if (!search.contains(evt.target) && !searchPopup.contains(evt.target) && evt.target !== search && evt.target !== searchPopup && search.classList.contains('search--opened')) {
-      toggleSearchPopup(search, searchPopup);
-    }
-  });
+  };
 
 })();

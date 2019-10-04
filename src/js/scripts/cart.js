@@ -1,5 +1,5 @@
 'use strict';
-(function () {
+(function () {/*
   var ENTER_KEYCODE = 13;
   var SPACE_KEYCODE = 32;
   var ESC_KEYCODE = 27;
@@ -13,7 +13,21 @@
   var cartForm = cartPopup.querySelector('form');
   var cartLastItem = cartForm.lastElementChild;
 
-  var backMove = false; // false - no Shift pressed
+  var cartLinkBackMove = false; // false - no Shift pressed
+  var cartBackMove = false;
+
+  //to redo later with constructor all these toggleParams objects:
+  //*classes cart and cart__popup +  '--opened', '--closed'
+  var cartToggleParams = {
+    toggleParent: 'cart--opened',
+    toggleChildOpened: 'cart__popup--opened',
+    toggleChildClosed: 'cart__popup--closed',
+  };
+  
+  var backMoves = {
+    'cart': false,
+    'cart__popup': false
+  };
 
   var elemsToClasses = {
     cartParent: 'cart--opened',
@@ -21,30 +35,59 @@
     cartPopupClosed: 'cart__popup--closed'
   };
 
-  function cartItemTabPressHandler(evt, cartParent, cartPopup) {
+  //closure to create different togglers:
+  function defineToggler(toggleParent, toggleChild, toggleParams) {
+    return function() {
+      toggleParent.classList.toggle(toggleParams.toggleParent);
+      toggleChild.classList.toggle(toggleParams.toggleChildClosed);
+      toggleChild.classList.toggle(toggleParams.toggleChildOpened);
+    }
+  }
+
+  var toggleCart = defineToggler(cart, cartPopup, cartToggleParams);
+function doTest() {
+  alert('ddddd');
+}
+  // toggleElemClass is either 'cart' (toggleParent class)  or  'cart__popup' (toggleChild class):
+  function itemTabPressHandler(toggleElemClass, callback) {
     // pressing Tab on the last link of dropdwon list closes the dropdown in case the focus moves forward, out of the dropdown list:
-    if (!backMove) {
-      toggleCartPopup(cartParent, cartPopup)
+    if (!backMoves[toggleElemClass]) {
+      callback();
     }
   }
 
-  function cartItemShiftPressHandler(evt) {
-    backMove = true;
+  function itemShiftPressHandler(toggleElemClass) {
+    backMoves[toggleElemClass] = true;
    
-    function cartItemTabShiftPressHandler(evtTab) {
+    function itemTabShiftPressHandler() {
       //when Shift is held down, pressing Tab does not close the dropdwon list anymore:
-      document.removeEventListener('keyup', cartItemTabPressHandler);
-      backMove = false;
+      document.removeEventListener('keyup', itemTabPressHandler);
+      backMoves[toggleElemClass] = false;
     }
-
-    document.addEventListener('keyup', cartItemTabShiftPressHandler);
+    document.addEventListener('keyup', itemTabShiftPressHandler);
   }
 
-  function toggleCartPopup(cartParent, cartPopup) {
-    cartParent.classList.toggle(elemsToClasses.cartParent);
-    cartPopup.classList.toggle(elemsToClasses.cartPopupClosed);
-    cartPopup.classList.toggle(elemsToClasses.cartPopupOpened);
-  }
+  cartLastItem.addEventListener('keydown', function (evt) {
+    //this is a handler cartLastItemTabHandler(evt): OR  even for both the same
+    if (evt.keyCode === TAB_KEYCODE) {
+      itemTabPressHandler('cart__popup', toggleCart);
+    }
+    if (evt.keyCode === SHIFT_KEYCODE) {
+      itemShiftPressHandler('cart__popup');
+    }
+  });
+
+  cartLink.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === TAB_KEYCODE) {
+      itemTabPressHandler('cart', toggleCart);
+    }
+    if (evt.keyCode === SHIFT_KEYCODE) {
+      itemShiftPressHandler('cart');
+      
+    }
+  });
+
+
 
   cart.addEventListener('mouseover', function (evt) {
     cartPopup.classList.add(elemsToClasses.cartPopupOpened);
@@ -54,57 +97,43 @@
   cart.addEventListener('mouseout', function (evt) {
     cartPopup.classList.remove(elemsToClasses.cartPopupOpened);
     cartPopup.classList.add(elemsToClasses.cartPopupClosed);
-  }); 
-
-  cartLink.addEventListener('keypress', function (evt) {
-    if (evt.keyCode == SPACE_KEYCODE) {
-      evt.preventDefault();
-      toggleCartPopup(cart, cartPopup);
-    }
   });
+
+ 
 
   cartSubmit.addEventListener('click', function (evt) {
     if (!cartList.children.length) {
       evt.preventDefault();
-      toggleCartPopup(cart, cartPopup);
-      /*search.classList.toggle('search--opened');
-      searchPopup.classList.toggle('search__popup--opened');
-      searchPopup.classList.toggle('search__popup--closed');*/
+      toggleCart();
       return;
     }
-    toggleCartPopup(cart, cartPopup);
+    toggleCart();
   });
 
   cartSubmit.addEventListener('keydown', function (evt) {
-    if (evt.keyCode == SPACE_KEYCODE) {
+    if (evt.keyCode == SPACE_KEYCODE || evt.keyCode == ENTER_KEYCODE) {
+      evt.preventDefault();
       if (!cartList.children.length) {
-        evt.preventDefault();
-        toggleCartPopup(cart, cartPopup);
+        toggleCart();
         return;
       }
-      toggleCartPopup(cart, cartPopup);
+      toggleCart();
     }
-  });
+  });*/
 
+/*it is not needed since cart popup gets activated by hovering
   document.addEventListener('keydown', function (evt) {
     if (evt.keyCode == ESC_KEYCODE && cart.classList.contains('cart--opened')) {
       toggleCartPopup(cart, cartPopup);
     }
-  });
+  });*/
 
+  /*cart popup works on hover:
   document.addEventListener('mousedown', function (evt) {
     if (!cart.contains(evt.target) && !cartPopup.contains(evt.target) && evt.target !== cart && evt.target !== cartPopup && cart.classList.contains('cart--opened')) {
       toggleCartPopup(cart, cartPopup);
     }
-  });
+  });*/
 
-  cartLastItem.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === TAB_KEYCODE) {
-      cartItemTabPressHandler(evt);
-    }
-    if (evt.keyCode === SHIFT_KEYCODE) {
-      cartItemShiftPressHandler(evt);
-    }
-  });
 
 })();

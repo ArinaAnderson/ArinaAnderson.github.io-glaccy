@@ -1,22 +1,18 @@
 .main-nav {
-  /*flex-grow: 1;*/
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  /*padding-bottom: 5px;*//*new*/
-  background-color: rgba(100, 180, 200, 0.5);
+  /*background-color: rgba(100, 180, 200, 0.5);*/
 }
 
 .main-nav__list {
-  flex-shrink: 1;flex-shrink: 0;
-  /*flex-basis: 46.5%;*/
-  flex-wrap: wrap;
-  /*align-items: center;*/align-items: flex-start;
+  /*flex-shrink: 0;*/
   margin: 0;
-  padding: 0;padding-top: 15px;
+  padding: 0;
+  padding-top: 15px;
   box-sizing: border-box;
 
-  background-color: rgba(200, 120, 150, 0.5);
+  /*background-color: rgba(200, 120, 150, 0.5);*/
 }
 
 .main-nav__item {
@@ -24,16 +20,15 @@
   align-items: center;
   width: auto;
   margin: 0;
+  margin-bottom: 10px;
   padding: 0;
-
-  /*padding: 0 30px;*/
   box-sizing: border-box;
 }
 .main-nav__link {
   display: flex;
   align-items: center;
 
-  width: auto;width: 100%;
+  width: 100%;
   min-width: 32px;
   min-height: 32px;
   /*margin-bottom: 10px;*/
@@ -42,6 +37,7 @@
   box-sizing: border-box;
 
   color: #ffffff;
+  text-decoration: none;
 
   border-radius: 50px;/*certain state*/
   border-bottom: 1px solid transparent;
@@ -65,7 +61,9 @@
 @media (min-width: 600px) {
   .main-nav {
     display: flex;
-    width: calc(100% - 200px);
+    flex-grow: 1;
+    width: calc(100% - 200px);width: auto;
+    max-width: calc(100% - 200px);
     flex-shrink: 0;
     flex-wrap: wrap;
     justify-content: space-between;/*??????*/
@@ -75,18 +73,20 @@
 
   .main-nav__list {
     flex-shrink: 1;flex-shrink: 0;
-    /*flex-basis: 46.5%;*/
     flex-wrap: wrap;
-    /*align-items: center;*/align-items: flex-start;
+    align-items: flex-start;
     margin: 0;
     padding: 0;
-    padding-left: 25px;
+    padding-right: 20px;
+    padding-left: 10px;
     padding-top: 15px;
     padding-bottom: 10px;
     box-sizing: border-box;
-
-    background-color: rgba(200, 120, 150, 0.5);
   }
+
+  /*.main-nav__list:last-child {
+    margin-left: auto;
+  }*/
 
   .main-nav__item {
     justify-content: center;
@@ -98,7 +98,10 @@
 @media (min-width: 900px) {
   .main-nav {
     justify-content: space-between;
+    flex-shrink: 1;
+    flex-grow: 0;
     width: calc(100% - 154px);
+    max-width: 100%;
   }
 }
 

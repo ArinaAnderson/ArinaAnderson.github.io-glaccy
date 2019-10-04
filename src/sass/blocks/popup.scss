@@ -1,0 +1,44 @@
+.popup {
+  position: relative;
+}
+
+.popup__box {
+  content: "";
+  position: absolute;
+  top: 100%;
+  z-index: 2;
+
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.5s ease;
+
+  display: none;
+}
+
+.popup__box--no-js {
+  visibility: visible;
+  opacity: 1;
+  display: block;
+}
+
+.popup__child {
+  content: "";
+  position: absolute;
+  z-index: 1;
+
+  /*visibility: hidden;
+  opacity: 0;
+  transition: all 0.5s ease;
+
+  display: none;*/
+}
+
+.popup--focus .popup__box, 
+.popup--over .popup__box,
+.popup--focus .popup__child, 
+.popup--over .popup__child {
+  visibility: visible;
+  opacity: 1;
+  display: block;
+}
+

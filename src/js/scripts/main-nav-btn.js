@@ -20,9 +20,10 @@
   function NavList(listClass) {
     this.list = document.querySelector('.' + listClass);
     this.listCloseClass = listClass + '--closed';
-    this.openCloseNavList = function () {
-      this.list.classList.toggle(this.listCloseClass);
-    };
+  }
+
+  NavList.prototype.openCloseNavList = function () {
+    this.list.classList.toggle(this.listCloseClass);
   }
 
   navLists.push(new NavList('site-list'));

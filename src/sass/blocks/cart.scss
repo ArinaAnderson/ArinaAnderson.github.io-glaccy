@@ -1,83 +1,47 @@
-.cart {
-  position: relative;
-}
-
-.cart__popup {opacity: 1;
-
-  position: absolute;
-  top: calc(100% + 10px);
-  left: 0;
-
-  width: 230px;width: 100%;
-
-  box-sizing: border-box;
-}
-
 .cart__form {
-  width: 230px;width: 100%;
-  padding: 20px 15px;
+  width: 100%;
+  padding: 15px 15px;/*20px 15px*/
   box-sizing: border-box;
 
   color: #323232;
   font-size: 13px;
+  line-height: 16px;
 
   border-radius: 5px;
   background-color: #f8f7f4;
-}
-
-.cart__popup--closed {
-  display: none;
-
-  visibility: hidden;
-  opacity: 0;
-  transition: all 0.5s ease;
-}
-
-.cart__popup--opened {
-  visibility: visible;
-  opacity: 1;
-  display: block;
-}
-
-.cart__form {
-  width: 230px;width: 100%;
-  padding: 20px 15px;
-  box-sizing: border-box;
-
-  color: #323232;
-  font-size: 13px;
-
-  border-radius: 5px;
-  background-color: #f8f7f4;
+  box-shadow: 0 20px 20px 0px #333333
 }
 
 .cart__list {
   margin: 0;
   padding: 0;
-  padding-bottom: 5px;
+  list-style: none;
 
-  background-color: rgba(110, 120, 190, 0.5);
   border-bottom: 1px solid #cacac7;
 }
 
 .cart__list-line {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: flex-start;
   margin: 0;
-  margin-bottom: 20px;
-  padding: 0;
+  /*margin-bottom: 20px;*/
+  padding: 10px 0;
+  
 }
 
+.cart__btn-wrap {
+  padding: 5px 0;
+}
 .cart__btn {
   position: relative;
 
   display: block;
-  flex-shrink: 0;
-  width: 22px;
-  height: 22px;
-  min-width: auto;
-  min-height: auto;
+  flex-shrink: 1;
+  flex-grow: 0;
+  width: 20px;
+  height: 20px;
+  padding: 0;
 
   font-size: 0;
 
@@ -86,8 +50,7 @@
   background-color: transparent;
 
   cursor: pointer;
-  transform: scale(0.5);
-  background-color: rgba(10, 170, 200, 0.5);background-color: red
+  /*background-color: rgba(180, 20, 120, 0.5);*/
 }
 
 .cart__btn::before,
@@ -95,10 +58,10 @@
   content: "";
 
   position: absolute;
-  top: 9px;
-  left: -3px;
+  top: 50%;
+  left: 3.5px;
 
-  width: 27px;
+  width: 15px;
   height: 2px;
 
   background-color: #221f1f;
@@ -112,35 +75,75 @@
   transform: rotate(-45grad);
 }
 
+.cart__btn:hover::before,
+.cart__btn:hover::after,
+.cart__btn:focus::before, 
+.cart__btn:focus::after {
+  background-color: #f6b5a5;
+}
+
+.cart__btn:active::before, 
+.cart__btn:active::after {
+  background-color: #d07058;
+}
+
 .cart__img-wrap {
   flex-shrink: 0;
-  width: 61px;
-  padding: 0 14px;
-  box-sizing: border-box;background-color: rgba(10, 170, 200, 0.5);
+  /*width: 61px;*/
+  margin: 0 8px;
+  box-sizing: border-box;
+
+  border-radius: 50%;
+  background-color: rgba(10, 170, 200, 0.5);
+  overflow: hidden;
 }
 
 .cart__img {
-  width: 100%;width: 33px;
+  display: block;
+  width: 100%;
+  width: 33px;
   height: auto;
 }
 
 .cart__title {
-  flex-shrink: 0;
-  width: 235px;
-  padding-right: 15px;
+  flex-shrink: 1;/*1*//*min-width: */
+  width: calc(100% - 49px - 20px);
+  padding: 10px 5px;
   box-sizing: border-box;
 }
 
 .cart__calculation {
+  display: flex;
+  flex-basis: 135px;
   flex-shrink: 0;
-  width: 120px;background-color: turquoise;
+  justify-content: center;
+
+
+  padding: 10px 5px;
+  box-sizing: border-box;
+}
+
+.cart__unit {
+  margin-left: 3px;
+}
+.cart__multiply {
+  margin-left: 3px;
+  margin-right: 3px;
+}
+.cart__currency {
+  margin-left: 3px;
 }
 .cart__result {
-  width: 67px;background-color: pink
+  flex-shrink: 0;
+  flex-grow: 1;
+  flex-basis: 65px;
+  flex-wrap: nowrap;
+  padding: 10px 0 10px 5px;
+  box-sizing: border-box;
 }
 
 .cart__total {
-  padding: 17px 0;
+  padding: 10px 0;
 
   font-weight: 700;
   font-size: 15px;
@@ -151,21 +154,8 @@
 .cart__submit {
   display: block;
   margin-left: auto;
-  padding: 13px 15px;
+  padding: 10px 12px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 @media (min-width: 600px) {
   .cart__popup {
@@ -176,6 +166,21 @@
     padding-top: 8px;
     /*transform: translateX(-40%);*/
   }
+  .cart__list-line {
+    flex-wrap: nowrap;
+  }
+  .cart__title {
+    min-width: 180px;
+    flex-basis: 227px;
+  }
+  .cart__total {
+    padding: 17px 0;
+  }
+  .cart__submit {
+    display: block;
+    margin-left: auto;
+    padding: 13px 15px;
+  }
 }
 
 @media (min-width: 900px) {
@@ -185,7 +190,6 @@
     right: 0;
 
     width: 540px;
-    padding-top: 8px;
-    /*transform: translateX(-40%);*/
+    padding-top: 5px;
   }
 }

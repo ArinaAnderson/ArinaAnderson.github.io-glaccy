@@ -1,5 +1,5 @@
 'use strict';
-(function () {
+(function () {/*
   var ENTER_KEYCODE = 13;
   var SPACE_KEYCODE = 32;
   var ESC_KEYCODE = 27;
@@ -67,5 +67,5 @@
       toggleLoginPopup(login, loginPopup);
     }
   });
-
+*/
 })();

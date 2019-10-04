@@ -78,11 +78,20 @@ gulp.task('js:del', function (done) {
 gulp.task('js:libraries', function (done) {
   return gulp.src('src/js/libraries/*.js')
     .pipe(plumber())
-    .pipe(uglify())
+    //.pipe(uglify())
     .pipe(gulp.dest('build/js/libraries'))
     .pipe(server.stream());
   done();
 });
+
+/*gulp.task('js:modules', function (done) {
+  return gulp.src('src/js/modules/*.js')
+    .pipe(plumber())
+    .pipe(uglify())
+    .pipe(gulp.dest('build/js/modules'))
+    .pipe(server.stream());
+  done();
+});*/
 
 
 gulp.task('js:scripts', function (done) {
@@ -90,7 +99,7 @@ gulp.task('js:scripts', function (done) {
     .pipe(plumber())
     .pipe(concat('script.js'))
     .pipe(gulp.dest('build/js'))
-    .pipe(uglify())
+    //.pipe(uglify())
     .pipe(rename(function (path) {
       path.basename += '.min';
     }))

@@ -4,33 +4,21 @@
   width: 100%;
   max-width: 1500px;
   margin: 0 auto;
-  padding: $sizeXS $sizeM 0 $sizeM;
+  padding: $sizeS $sizeM 0 $sizeM;
   box-sizing: border-box;
 
-  background-color: rgba(160, 200, 20, 0.5);
-  /*background-image: url("http://habrastorage.org/files/97d/5df/2eb/97d5df2ebcf24bf489a37010e8157862.png");*/
-
+  /*background-color: rgba(160, 200, 20, 0.5);*/
 }
 
-.page-header__top {
-  display: flex;
-  /*align-items: center;*//*logo gets located in the centre*/
-}
-
-.page-header__bottom {
-  display: flex;
-  justify-content: flex-end;
-}
 .page-header__logo {
   display: block;
   width: 100%;
-  background-color: mistyrose;
+  /*background-color: mistyrose;*/
 }
 
 .page-header__logo svg {
   display: block;
   margin: 0 auto;
-  /*background-color: green*/
 }
 
 .page-header__btn {
@@ -42,11 +30,10 @@
   width: 27px;
   height: 26px;
 
-  background-color: #ffffff;
   border: none;
-
   cursor: pointer;
-  background-color: rgba(255, 255, 255, 1);
+  background-color: rgba(255, 255, 255, 0.2);
+
 }
 
 .page-header__btn--no-js {
@@ -63,8 +50,8 @@
   width: 20px;
   height: 2px;
 
-  box-shadow: 0 6px 0 0 #221f1f, 0 12px 0 0 #221f1f;
-  background-color: #221f1f;
+  box-shadow: 0 6px 0 0 #ffffff, 0 12px 0 0 #ffffff;
+  background-color: #ffffff;
 }
 
 .page-header__btn--close::before,
@@ -78,16 +65,11 @@
   width: 27px;
   height: 2px;
 
-  background-color: #221f1f;
+  background-color: #ffffff;
 }
 
 .page-header__btn:active {
-  background-color: #d07058;
-}
-
-.page-header__btn--open:active::before {
-  background-color: #ffffff;
-  box-shadow: 0 6px 0 0 #ffffff, 0 12px 0 0 #ffffff;
+  background-color: #221f1f;
 }
 
 .page-header__btn--close::before {
@@ -98,14 +80,32 @@
   transform: rotate(-45grad);
 }
 
+.page-header__btn--close:hover::before,
+.page-header__btn--close:focus::before,
+.page-header__btn--close:hover::after,
+.page-header__btn--close:focus::after,
+.page-header__btn--open:hover::before,
+.page-header__btn--open:focus::before {
+  background-color: #d07058;
+}
+
+.page-header__btn--open:hover::before,
+.page-header__btn--open:focus::before {
+  box-shadow: 0 6px 0 0 #d07058, 0 12px 0 0 #d07058;
+}
+
 .page-header__btn--close:active::before,
 .page-header__btn--close:active::after {
+  background-color: #221f1f;background-color: #ffffff;
+}
+
+.page-header__btn--open:active::before {
   background-color: #ffffff;
+  box-shadow: 0 6px 0 0 #ffffff, 0 12px 0 0 #ffffff;
 }
 
 .page-header__contacts {
-  
-  margin: 0 auto;
+  margin: 0;
   padding: 0;
   padding-top: 10px;
 
@@ -113,7 +113,7 @@
   line-height: 16px;
   text-align: center;
 
-  background-color: rgba(10, 120, 180, 0.7);
+  /*background-color: rgba(10, 120, 180, 0.7);*/
 }
 
 .page-header__phone {
@@ -122,7 +122,9 @@
   text-align: center;
 
   font-size: 22px;
+  color: #ffffff;
   line-height: 24px;
+  text-decoration: none;
 }
 
 @media (min-width: 600px) {
@@ -133,8 +135,8 @@
 
   .page-header__logo {
     display: block;
-    width: 200px;
-    background-color: mistyrose;
+    margin-left: 35px;
+    width: 155px;
   }
 
   .page-header__logo svg {
@@ -148,26 +150,14 @@
   }
 
   .page-header__contacts {
-    flex-basis: 162px;
-    align-self: center;/*NEW*/
+    flex-basis: 172px;width: auto;
+    align-self: center;
     margin: 0;
-    margin-left: auto;/*NEW*/
-    margin-left: 20px;
+    margin-left: 10px;margin-left: auto;
     padding: 0;
-    padding-left: 15px;
+    padding-left: 20px;
 
  
-    text-align: right;
-
-    background-color: rgba(10, 120, 180, 0.7);
-  }
-
-  .page-header__phone {
-    display: block;
-    margin-top: 8px;
-
-    font-size: 22px;
-    line-height: 24px;
     text-align: right;
   }
 }
@@ -175,13 +165,16 @@
 @media (min-width: 900px) {
   .page-header__logo {
     width: 154px;
+    margin-left: 0;
   }
+
   .page-header__btn {
     display: none;
   }
+
   .page-header__contacts {
     margin-left: auto;
+    padding-left: 10px;
   }
 }
-
 
