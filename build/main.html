@@ -98,6 +98,9 @@
       
           <ul class="main-nav__list  user-list  user-list--closed">
             <li class="main-nav__item  user-list__item  user-list__item--search  popup"><!--search--opened-->
+      
+              
+      
               <form action="https://echo.htmlacademy.ru"  class="search" method="get" autocomplete="off">
                 <button type="submit" class="main-nav__link user-list__link  user-list__link--search  search__btn  popup__header  popup__focusable">
                   <!--<svg class="user-list__icon  user-list__icon--search" width="18" height="17">
@@ -105,12 +108,14 @@
                   </svg>-->
                   Поиск
                 </button>
-              <div class="user-list__popup  user-list__popup--search  search__wrap  popup__box  popup__box--no-js">
-                
+                <div class="user-list__popup  user-list__popup--search  search__wrap  popup__box  popup__box--no-js">
+                  <button type="button" class="popup__close-btn  popup__close-btn--none  user-list__popup-btn">
+                    Закрыть модальное окно
+                  </button>
                   <p class="search__input-wrap  popup__child">
                     <input class="search__input" type="text" id="search-input" name="search-input" placeholder="Что ищем?">
                   </p>
-              </div>
+                </div>
               </form>
             </li>
             <li class="main-nav__item  user-list__item  user-list__item--login  popup">
@@ -121,6 +126,9 @@
                 <span class="user-list__link-text">Вход</span>
               </a>
               <div class="user-list__popup  user-list__popup--login  login  popup__box">
+                <button type="button" class="popup__close-btn  popup__close-btn--none  user-list__popup-btn">
+                  Закрыть модальное окно
+                </button>
                 <form action="https://echo.htmlacademy.ru"  class="login__form  popup__child" method="post" autocomplete="off">
                   <p class="login__input-wrap">
                     <input class="login__input" type="text" id="login-input" name="login-input" placeholder="Электронная почта">
@@ -158,6 +166,9 @@
               </a>
       
               <div class="user-list__popup  user-list__popup--cart  cart  popup__box">
+                <button type="button" class="popup__close-btn  popup__close-btn--none  user-list__popup-btn">
+                  Закрыть модальное окно
+                </button>
                 <form action="https://echo.htmlacademy.ru"  class="cart__form  popup__child" method="post" autocomplete="off">
                   
                   <ul class="cart__list">

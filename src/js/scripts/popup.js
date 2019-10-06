@@ -12,6 +12,7 @@
   const ppOverlay = document.querySelector('.dropdown-overlay');
   let activeEl = null;
   let activeElToggle = false;
+  let thisPpcloseBtn = null;
 
   function togglePopup(activity, parentElem) {
     parentElem.classList.toggle('popup--' + activity);
@@ -39,7 +40,6 @@
   }
 
   function ppCloseBtnClickHandler(evt) {
-    const activeElHeader = activeEl.querySelector('.popup__header');
     closePpMenu(activeEl);
   }
 
@@ -86,6 +86,7 @@
 
     const ppHeader = item.querySelector('.popup__header');
     const ppChild = item.querySelector('.popup__child');
+    const ppCloseBtn = item.querySelector('.popup__close-btn');
 
     function ppParentMouseOverHadnler(evt) {
       togglePopup('over', item);
@@ -100,6 +101,17 @@
 
     //item.addEventListener('blur', ddItemBlurHandler, true);
     item.addEventListener('focus', ppItemFocusHandler, true);
+
+    item.addEventListener('touchstart', function () {
+      item.removeEventListener('mouseover', ppParentMouseOverHadnler);
+      item.removeEventListener('mouseout', ppParentMouseOutHadnler);
+      if (ppCloseBtn) {
+        ppCloseBtn.classList.remove('popup__close-btn--none');
+      }
+    });
+    if (ppCloseBtn) {
+      ppCloseBtn.addEventListener('click', ppCloseBtnClickHandler);
+    }
 
     ppHeader.addEventListener('click', function (evt) {//'mousedown'
       if (evt.currentTarget.tagName != 'BUTTON' || evt.target.tagName != 'BUTTON') {

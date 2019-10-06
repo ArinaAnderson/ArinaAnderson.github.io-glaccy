@@ -21,6 +21,15 @@
   display: block;
 }
 
+.popup__close-btn {
+  position: absolute;
+  top: 100%;
+}
+
+.popup__close-btn--none {
+  display: none;
+}
+
 .popup__child {
   content: "";
   position: absolute;

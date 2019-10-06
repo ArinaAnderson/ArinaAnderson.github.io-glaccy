@@ -58,7 +58,7 @@
   }
 
   function ddCloseBtnClickHandler(evt) {
-    const activeElHeader = activeEl.querySelector('.dropdown__header');
+    //const activeElHeader = activeEl.querySelector('.dropdown__header');
     closeDdMenu(activeEl);
   }
 
@@ -70,10 +70,10 @@
     activeEl = elem;
 
     //activeEl.classList.remove('dropdown--over');// last measure for SAFARI
-    thisDdcloseBtn = activeEl.querySelector('.dropdown__close-btn');
+    /*thisDdcloseBtn = activeEl.querySelector('.dropdown__close-btn');
     if (thisDdcloseBtn) {
       thisDdcloseBtn.classList.remove('dropdown__close-btn--none');
-    }
+    }*/
 
     document.addEventListener('keydown', docEscPressHandler);
   }
@@ -85,9 +85,9 @@
     elem.removeEventListener('blur', ddItemBlurHandler, true);
     activeEl = null;
 
-    if (thisDdcloseBtn) {
+    /*if (thisDdcloseBtn) {
       thisDdcloseBtn.classList.add('dropdown__close-btn--none');
-    }
+    }*/
 
     document.removeEventListener('keydown', docEscPressHandler);
   }
@@ -133,10 +133,23 @@
 
     item.addEventListener('mouseover', ddParentMouseOverHadnler);
     item.addEventListener('mouseout', ddParentMouseOutHadnler);
+    
 
 
     //item.addEventListener('blur', ddItemBlurHandler, true);
     item.addEventListener('focus', ddItemFocusHandler, true);
+
+    item.addEventListener('touchstart', function () {
+      item.removeEventListener('mouseover', ddParentMouseOverHadnler);
+      item.removeEventListener('mouseout', ddParentMouseOutHadnler);
+      if (ddCloseBtn) {
+        ddCloseBtn.classList.remove('dropdown__close-btn--none');
+      }
+    });
+
+    if (ddCloseBtn) {
+      ddCloseBtn.addEventListener('click', ddCloseBtnClickHandler);
+    }
 
     
     ddHeader.addEventListener('mousedown', function (evt) {
@@ -148,11 +161,6 @@
         ddHeader.focus();
       //}//SAFARI FIX*/
     });
-
-    if (ddCloseBtn) {
-      ddCloseBtn.addEventListener('click', ddCloseBtnClickHandler);
-    }
-
 
     ddHeader.addEventListener('keydown', function (evt) {
       window.utils.isEnterPressed(evt, function () {

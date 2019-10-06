@@ -261,7 +261,7 @@ function doTest() {
   }
 
   function ddCloseBtnClickHandler(evt) {
-    const activeElHeader = activeEl.querySelector('.dropdown__header');
+    //const activeElHeader = activeEl.querySelector('.dropdown__header');
     closeDdMenu(activeEl);
   }
 
@@ -273,10 +273,10 @@ function doTest() {
     activeEl = elem;
 
     //activeEl.classList.remove('dropdown--over');// last measure for SAFARI
-    thisDdcloseBtn = activeEl.querySelector('.dropdown__close-btn');
+    /*thisDdcloseBtn = activeEl.querySelector('.dropdown__close-btn');
     if (thisDdcloseBtn) {
       thisDdcloseBtn.classList.remove('dropdown__close-btn--none');
-    }
+    }*/
 
     document.addEventListener('keydown', docEscPressHandler);
   }
@@ -288,9 +288,9 @@ function doTest() {
     elem.removeEventListener('blur', ddItemBlurHandler, true);
     activeEl = null;
 
-    if (thisDdcloseBtn) {
+    /*if (thisDdcloseBtn) {
       thisDdcloseBtn.classList.add('dropdown__close-btn--none');
-    }
+    }*/
 
     document.removeEventListener('keydown', docEscPressHandler);
   }
@@ -336,10 +336,23 @@ function doTest() {
 
     item.addEventListener('mouseover', ddParentMouseOverHadnler);
     item.addEventListener('mouseout', ddParentMouseOutHadnler);
+    
 
 
     //item.addEventListener('blur', ddItemBlurHandler, true);
     item.addEventListener('focus', ddItemFocusHandler, true);
+
+    item.addEventListener('touchstart', function () {
+      item.removeEventListener('mouseover', ddParentMouseOverHadnler);
+      item.removeEventListener('mouseout', ddParentMouseOutHadnler);
+      if (ddCloseBtn) {
+        ddCloseBtn.classList.remove('dropdown__close-btn--none');
+      }
+    });
+
+    if (ddCloseBtn) {
+      ddCloseBtn.addEventListener('click', ddCloseBtnClickHandler);
+    }
 
     
     ddHeader.addEventListener('mousedown', function (evt) {
@@ -351,11 +364,6 @@ function doTest() {
         ddHeader.focus();
       //}//SAFARI FIX*/
     });
-
-    if (ddCloseBtn) {
-      ddCloseBtn.addEventListener('click', ddCloseBtnClickHandler);
-    }
-
 
     ddHeader.addEventListener('keydown', function (evt) {
       window.utils.isEnterPressed(evt, function () {
@@ -538,6 +546,7 @@ window.addEventListener("load", function() {
   const ppOverlay = document.querySelector('.dropdown-overlay');
   let activeEl = null;
   let activeElToggle = false;
+  let thisPpcloseBtn = null;
 
   function togglePopup(activity, parentElem) {
     parentElem.classList.toggle('popup--' + activity);
@@ -565,7 +574,6 @@ window.addEventListener("load", function() {
   }
 
   function ppCloseBtnClickHandler(evt) {
-    const activeElHeader = activeEl.querySelector('.popup__header');
     closePpMenu(activeEl);
   }
 
@@ -612,6 +620,7 @@ window.addEventListener("load", function() {
 
     const ppHeader = item.querySelector('.popup__header');
     const ppChild = item.querySelector('.popup__child');
+    const ppCloseBtn = item.querySelector('.popup__close-btn');
 
     function ppParentMouseOverHadnler(evt) {
       togglePopup('over', item);
@@ -626,6 +635,17 @@ window.addEventListener("load", function() {
 
     //item.addEventListener('blur', ddItemBlurHandler, true);
     item.addEventListener('focus', ppItemFocusHandler, true);
+
+    item.addEventListener('touchstart', function () {
+      item.removeEventListener('mouseover', ppParentMouseOverHadnler);
+      item.removeEventListener('mouseout', ppParentMouseOutHadnler);
+      if (ppCloseBtn) {
+        ppCloseBtn.classList.remove('popup__close-btn--none');
+      }
+    });
+    if (ppCloseBtn) {
+      ppCloseBtn.addEventListener('click', ppCloseBtnClickHandler);
+    }
 
     ppHeader.addEventListener('click', function (evt) {//'mousedown'
       if (evt.currentTarget.tagName != 'BUTTON' || evt.target.tagName != 'BUTTON') {
