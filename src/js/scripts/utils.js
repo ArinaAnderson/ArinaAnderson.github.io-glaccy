@@ -37,6 +37,10 @@
     },
     removeClassModifier: function (parentElem, elemClass, modifier) {
       parentElem.classList.remove(elemClass + '--' + modifier);
+    },
+    windowWidthHandler: function (callback) {
+      let devWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+      callback(devWidth);
     }
   };
 

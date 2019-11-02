@@ -295,18 +295,16 @@
     SHIFT: 16
   };
   const {ENTER, SPACE, TAB, SHIFT} = keyCodes;
-
-  // pp - abbreviation for popup;
-
-  const ppParents = document.querySelectorAll('.popup');
-  const ppOverlay = document.querySelector('.popup-overlay');
+  const TABLET_WIDTH = 768;
+  // pu - abbreviation for popup;
+  const puParents = document.querySelectorAll('.popup');
+  const puOverlay = document.querySelector('.popup-overlay');
   let activeEl = null;
   let activeElToggle = false;
-  let thisPpcloseBtn = null;  
 
   function docClickHandler(evt) {
     if (activeEl && !activeEl.contains(evt.target)) {
-      closePpMenu(activeEl);
+      closePuMenu(activeEl);
     }
   }
 
@@ -314,117 +312,133 @@
     window.utils.isEscPressed(evt, function () {
       const activeElHeader = activeEl.querySelector('.popup__header');
       activeElHeader.focus();
-      closePpMenu(activeEl);
+      closePuMenu(activeEl);
     });
   }
 
-  function ppCloseBtnClickHandler(evt) {
-    closePpMenu(activeEl);
+  function puCloseBtnClickHandler(evt) {
+    closePuMenu(activeEl);
   }
 
-  function openPpMenu(elem) {
+  function openPuMenu(elem) {
     activeElToggle = true;
     window.utils.addClassModifier(elem, 'popup', 'focus');
-    elem.addEventListener('blur', ppItemBlurHandler, true);
+    elem.addEventListener('blur', puItemBlurHandler, true);
     activeEl = elem;
 
     document.addEventListener('keydown', docEscPressHandler);
   }
 
-  function closePpMenu(elem) {
+  function closePuMenu(elem) {
     activeElToggle = false;
     window.utils.removeClassModifier(elem, 'popup', 'focus');
-    elem.removeEventListener('blur', ppItemBlurHandler, true);
+    elem.removeEventListener('blur', puItemBlurHandler, true);
     activeEl = null;
 
     document.removeEventListener('keydown', docEscPressHandler);
   }
 
-  function ppItemFocusHandler(evt, btn) {
+  function puItemFocusHandler(evt, btn) {
     if (!evt.currentTarget.classList.contains('popup--focus')) {
-      openPpMenu(evt.currentTarget);
+      openPuMenu(evt.currentTarget);
     }
   }
 
-  function ppItemBlurHandler(evt) {
+  function puItemBlurHandler(evt) {
     const blurElem = evt.currentTarget;
     function focusHandler(evtFocus) {
       if (!blurElem.classList.contains(evtFocus.target)) {
-        closePpMenu(blurElem);
+        closePuMenu(blurElem);
       }
       document.removeEventListener('focus', focusHandler, true);
     }
     document.addEventListener('focus', focusHandler, true);
   }
 
-  ppParents.forEach(function (item, key) {
+  puParents.forEach(function (item, key) {
     item.querySelector('.popup__box').classList.remove('popup__box--no-js');
 
-    const ppHeader = item.querySelector('.popup__header');
-    const ppChild = item.querySelector('.popup__child');
-    const ppCloseBtn = item.querySelector('.popup__close-btn');
-    const ppBox = item.querySelector('.popup__box');
+    const puHeader = item.querySelector('.popup__header');
+    const puChild = item.querySelector('.popup__child');
+    const puCloseBtn = item.querySelector('.popup__close-btn');
+    const puBox = item.querySelector('.popup__box');
 
-    function ppParentMouseOverHadnler(evt) {
+    function puParentMouseOverHadnler(evt) {
       window.utils.toggleElem(item, 'popup', 'over');
     }
-    function ppParentMouseOutHadnler(evt) {
+    function puParentMouseOutHadnler(evt) {
       window.utils.toggleElem(item, 'popup', 'over');
     }
 
-    item.addEventListener('mouseover', ppParentMouseOverHadnler);
-    item.addEventListener('mouseout', ppParentMouseOutHadnler);
+    function windowWidthHandler(width) {
+      if (width > TABLET_WIDTH) {
+        item.addEventListener('mouseover', puParentMouseOverHadnler);
+        item.addEventListener('mouseout', puParentMouseOutHadnler);
+      } else {
+        item.removeEventListener('mouseover', puParentMouseOverHadnler);
+        item.removeEventListener('mouseout', puParentMouseOutHadnler);
+      }
+    }
+
+    window.addEventListener('resize', function (evt) {
+      window.utils.windowWidthHandler(windowWidthHandler);
+    });
+    window.addEventListener('load', function (evt) {
+      window.utils.windowWidthHandler(windowWidthHandler);
+    });
+
 
 
     //item.addEventListener('blur', ddItemBlurHandler, true);
-    item.addEventListener('focus', ppItemFocusHandler, true);
+    item.addEventListener('focus', puItemFocusHandler, true);
 
     // specific feature of popup, not dropdown (overlay on mobiles):
-    ppBox.addEventListener('click', function (evt) {
-      if (!ppChild.contains(evt.target) && !ppCloseBtn.contains(evt.target) && evt.target !== ppCloseBtn) {
-        closePpMenu(activeEl);
+    puBox.addEventListener('click', function (evt) {
+      if (!puChild.contains(evt.target) && !puCloseBtn.contains(evt.target) && evt.target !== puCloseBtn) {
+        closePuMenu(activeEl);
       }
     });
 
     item.addEventListener('touchstart', function () {
-      item.removeEventListener('mouseover', ppParentMouseOverHadnler);
-      item.removeEventListener('mouseout', ppParentMouseOutHadnler);
-      if (ppCloseBtn) {
-        ppCloseBtn.classList.remove('popup__close-btn--none');
+      item.removeEventListener('mouseover', puParentMouseOverHadnler);
+      item.removeEventListener('mouseout', puParentMouseOutHadnler);
+      if (puCloseBtn) {
+        puCloseBtn.classList.remove('popup__close-btn--none');
       }
     });
-    if (ppCloseBtn) {
-      ppCloseBtn.addEventListener('click', ppCloseBtnClickHandler);
+    if (puCloseBtn) {
+      puCloseBtn.addEventListener('click', puCloseBtnClickHandler);
     }
 
-    ppHeader.addEventListener('click', function (evt) {//'mousedown'
+    puHeader.addEventListener('click', function (evt) {//'mousedown'
       if (evt.currentTarget.tagName != 'BUTTON' || evt.target.tagName != 'BUTTON') {
         evt.preventDefault();
       }
-      ppHeader.focus();//SAFARI FIX*/
+      puHeader.focus();//SAFARI FIX*/
     });
 
-    ppHeader.addEventListener('keydown', function (evt) {
+    puHeader.addEventListener('keydown', function (evt) {
       window.utils.isEnterPressed(evt, function () {
         if (evt.currentTarget.tagName !== 'BUTTON' || evt.target.tagName !== 'BUTTON') {
           evt.preventDefault();
         }
         if (!item.classList.contains('popup--focus')) {
-          openPpMenu(item);
+          openPuMenu(item);
         }
       });      
     });
-    ppHeader.addEventListener('keydown', function (evt) {
+    puHeader.addEventListener('keydown', function (evt) {
       window.utils.isSpacePressed(evt, function () {
         if (evt.currentTarget.tagName !== 'BUTTON' || evt.target.tagName !== 'BUTTON') {
           evt.preventDefault();
         }
         if (!item.classList.contains('popup--focus')) {
-          openPpMenu(item);
+          openPuMenu(item);
         }
       });      
     });
   });
+
   document.addEventListener('click', docClickHandler);
 })();
 
@@ -506,6 +520,10 @@
     },
     removeClassModifier: function (parentElem, elemClass, modifier) {
       parentElem.classList.remove(elemClass + '--' + modifier);
+    },
+    windowWidthHandler: function (callback) {
+      let devWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+      callback(devWidth);
     }
   };
 

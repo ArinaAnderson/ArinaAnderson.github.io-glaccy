@@ -1048,9 +1048,6 @@ img {
   position: absolute;
   top: 100%; }
 
-.popup__close-btn--none {
-  display: none; }
-
 .popup__close-btn--search {
   display: none; }
 
