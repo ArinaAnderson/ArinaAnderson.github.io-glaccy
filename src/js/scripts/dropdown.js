@@ -15,33 +15,6 @@
   let activeElToggle = false;
   let thisDdcloseBtn = null;
 
-  function unloadingWebsite() {
-    console.log(activeEl);
-    const tt = document.querySelector('dropdown--focus');
-    const uu = document.querySelector('dropdown--over');
-    console.log(tt, uu);
-    if (tt) {
-      tt.classList.remove('dropdown--focus');
-    }
-    if (uu) {
-      uu.classList.remove('dropdown--over');
-    }
-    //document.body.classList.add("unloaded");
-   }
-
-
-  // function removes/adds focus class on dropdown parent element:  --> UTILS.js
-  function toggleDropdown(activity, parentElem) {
-    parentElem.classList.toggle('dropdown--' + activity);
-  }
-  function addClass(activity, parentElem) {
-    parentElem.classList.add('dropdown--' + activity);
-  }
-  function removeClass(activity, parentElem) {
-    parentElem.classList.remove('dropdown--' + activity);
-  }
-  
-
   function docClickHandler(evt) {
     if (activeEl && !activeEl.contains(evt.target)) {
       closeDdMenu(activeEl);
@@ -52,43 +25,30 @@
     window.utils.isEscPressed(evt, function () {
       const activeElHeader = activeEl.querySelector('.dropdown__header');
       activeElHeader.focus();
-      //activeEl.removeEventListener('blur', ddItemBlurHandler, true);//moved to clseDdMenu
       closeDdMenu(activeEl);
     });
   }
 
   function ddCloseBtnClickHandler(evt) {
-    //const activeElHeader = activeEl.querySelector('.dropdown__header');
     closeDdMenu(activeEl);
   }
 
   function openDdMenu(elem) {
     activeElToggle = true;
-
-    addClass('focus', elem);
+    //addClass('focus', elem);
+    window.utils.addClassModifier(elem, 'dropdown', 'focus');
     elem.addEventListener('blur', ddItemBlurHandler, true);
     activeEl = elem;
-
-    //activeEl.classList.remove('dropdown--over');// last measure for SAFARI
-    /*thisDdcloseBtn = activeEl.querySelector('.dropdown__close-btn');
-    if (thisDdcloseBtn) {
-      thisDdcloseBtn.classList.remove('dropdown__close-btn--none');
-    }*/
-
     document.addEventListener('keydown', docEscPressHandler);
   }
 
   function closeDdMenu(elem) {
     activeElToggle = false;
 
-    removeClass('focus', elem);
+    //removeClass('focus', elem);
+    window.utils.removeClassModifier(elem, 'dropdown', 'focus');
     elem.removeEventListener('blur', ddItemBlurHandler, true);
     activeEl = null;
-
-    /*if (thisDdcloseBtn) {
-      thisDdcloseBtn.classList.add('dropdown__close-btn--none');
-    }*/
-
     document.removeEventListener('keydown', docEscPressHandler);
   }
 
@@ -99,7 +59,6 @@
   }
 
   function ddItemBlurHandler(evt) {
-    console.log('BLUR');
     const blurElem = evt.currentTarget;
     function focusHandler(evtFocus) {
       if (!blurElem.classList.contains(evtFocus.target)) {
@@ -117,18 +76,16 @@
     }
   }
 
-// replace toogle for add and remove ('dropdown--focus')
-
   ddParents.forEach(function (item, key) {
     const ddHeader = item.querySelector('.dropdown__header');
     const ddChild = item.querySelector('.dropdown__child');
     const ddCloseBtn = item.querySelector('.dropdown__close-btn');
 
     function ddParentMouseOverHadnler(evt) {
-      toggleDropdown('over', item);
+      window.utils.toggleElem(item, 'dropdown', 'over');
     }
     function ddParentMouseOutHadnler(evt) {
-      toggleDropdown('over', item);
+      window.utils.toggleElem(item, 'dropdown', 'over');
     }
 
     item.addEventListener('mouseover', ddParentMouseOverHadnler);
@@ -154,12 +111,7 @@
     
     ddHeader.addEventListener('mousedown', function (evt) {
       evt.preventDefault();
-      //if (activeElToggle) {
-        //closeDdMenu(activeEl);
-        //ddHeader.blur();
-      //} else {
-        ddHeader.focus();
-      //}//SAFARI FIX*/
+      ddHeader.focus();
     });
 
     ddHeader.addEventListener('keydown', function (evt) {
@@ -187,7 +139,6 @@
     });
 
     window.addEventListener('load', function () {
-      console.log('LOAD!!!!');
       ddFocusablesArray.forEach(function (it) {
         if (ddChild.contains(it)) {
           window.utils.defineTabIndex(it, true);
@@ -196,18 +147,5 @@
     })
   });
 
-/*window.addEventListener("pagehide", function() {
-    unloadingWebsite();
-});
-window.addEventListener("pageshow", function() {
-    // You can use the pageshow function if required to double ensure that everything is reset on the page load.
-    // Most of the time the "pagehide" event will provide the solution.
-    unloadingWebsite();
-});
-window.addEventListener("load", function() {
-    // You can use the pageshow function if required to double ensure that everything is reset on the page load.
-    // Most of the time the "pagehide" event will provide the solution.
-    unloadingWebsite();
-});*/
   document.addEventListener('click', docClickHandler);
 })();

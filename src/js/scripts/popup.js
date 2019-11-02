@@ -8,22 +8,13 @@
   };
   const {ENTER, SPACE, TAB, SHIFT} = keyCodes;
 
+  // pp - abbreviation for popup;
+
   const ppParents = document.querySelectorAll('.popup');
-  const ppOverlay = document.querySelector('.dropdown-overlay');
+  const ppOverlay = document.querySelector('.popup-overlay');
   let activeEl = null;
   let activeElToggle = false;
-  let thisPpcloseBtn = null;
-
-  function togglePopup(activity, parentElem) {
-    parentElem.classList.toggle('popup--' + activity);
-  }
-  function addClass(activity, parentElem) {
-    parentElem.classList.add('popup--' + activity);
-  }
-  function removeClass(activity, parentElem) {
-    parentElem.classList.remove('popup--' + activity);
-  }
-  
+  let thisPpcloseBtn = null;  
 
   function docClickHandler(evt) {
     if (activeEl && !activeEl.contains(evt.target)) {
@@ -45,8 +36,7 @@
 
   function openPpMenu(elem) {
     activeElToggle = true;
-
-    addClass('focus', elem);
+    window.utils.addClassModifier(elem, 'popup', 'focus');
     elem.addEventListener('blur', ppItemBlurHandler, true);
     activeEl = elem;
 
@@ -55,8 +45,7 @@
 
   function closePpMenu(elem) {
     activeElToggle = false;
-
-    removeClass('focus', elem);
+    window.utils.removeClassModifier(elem, 'popup', 'focus');
     elem.removeEventListener('blur', ppItemBlurHandler, true);
     activeEl = null;
 
@@ -70,7 +59,6 @@
   }
 
   function ppItemBlurHandler(evt) {
-    console.log('BLUR');
     const blurElem = evt.currentTarget;
     function focusHandler(evtFocus) {
       if (!blurElem.classList.contains(evtFocus.target)) {
@@ -87,12 +75,13 @@
     const ppHeader = item.querySelector('.popup__header');
     const ppChild = item.querySelector('.popup__child');
     const ppCloseBtn = item.querySelector('.popup__close-btn');
+    const ppBox = item.querySelector('.popup__box');
 
     function ppParentMouseOverHadnler(evt) {
-      togglePopup('over', item);
+      window.utils.toggleElem(item, 'popup', 'over');
     }
     function ppParentMouseOutHadnler(evt) {
-      togglePopup('over', item);
+      window.utils.toggleElem(item, 'popup', 'over');
     }
 
     item.addEventListener('mouseover', ppParentMouseOverHadnler);
@@ -101,6 +90,13 @@
 
     //item.addEventListener('blur', ddItemBlurHandler, true);
     item.addEventListener('focus', ppItemFocusHandler, true);
+
+    // specific feature of popup, not dropdown (overlay on mobiles):
+    ppBox.addEventListener('click', function (evt) {
+      if (!ppChild.contains(evt.target) && !ppCloseBtn.contains(evt.target) && evt.target !== ppCloseBtn) {
+        closePpMenu(activeEl);
+      }
+    });
 
     item.addEventListener('touchstart', function () {
       item.removeEventListener('mouseover', ppParentMouseOverHadnler);

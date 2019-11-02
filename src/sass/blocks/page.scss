@@ -1,9 +1,8 @@
 .page {
-  min-width: $mobile-width;
+  min-width: $mobileMin;
   margin: 0 auto;
 
   /*background-image: url("http://habrastorage.org/files/97d/5df/2eb/97d5df2ebcf24bf489a37010e8157862.png");*/
-
 
   &--mint {
     background-color: $mintBG;

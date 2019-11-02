@@ -28,6 +28,15 @@
       if (evt.keyCode === SPACE) {
         action();
       }
+    },
+    toggleElem: function (parentElem, elemClass, modifier) {
+      parentElem.classList.toggle(elemClass + '--' + modifier);
+    },
+    addClassModifier: function (parentElem, elemClass, modifier) {
+      parentElem.classList.add(elemClass + '--' + modifier);
+    },
+    removeClassModifier: function (parentElem, elemClass, modifier) {
+      parentElem.classList.remove(elemClass + '--' + modifier);
     }
   };
 

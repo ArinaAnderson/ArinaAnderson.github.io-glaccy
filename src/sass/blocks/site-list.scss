@@ -18,8 +18,6 @@
   font-weight: 700;
   font-size: 16px;
   line-height: 18px;
-
-  /*background-color: rgba(10, 180, 100, 0.5);*//*REMOVE!!*/
 }
 
 .site-list__link--active {
@@ -84,6 +82,10 @@
 }
 
 .site-list__dropdown-wrap {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
   z-index: 8;
 
   width: 85%;
@@ -94,10 +96,9 @@
   top: 100%;
   left: 0;
 
-  width: 145px;width: 90%;width: calc(100% - 27px);
+  width: calc(100% - 27px);
   margin: 0;
   padding: 0;
-  /*padding-top: 5px;*/
   box-sizing: border-box;
   list-style: none;
 
@@ -166,26 +167,26 @@
 .site-list__dropdown-link:not(.site-list__dropdown-link--active):hover,
 .site-list__dropdown-link:not(.site-list__dropdown-link--active):focus {
   background-color: #fbded7;
-  /*border-radius: 5px;*/
 }
+
 .site-list__dropdown-link:not(.site-list__dropdown-link--active):active {
   background-color: #f6b5a5;
 }
 
-@media (min-width: 600px) {
+@media (min-width: $tablet) {
   .site-list {
   	position: absolute;
-  	top: 100%;top: 80px;
+  	top: 80px;
   	left: 20px;
 
   	flex-basis: 280px;
-    /*flex-shrink: 1;*//*??????????*/
     width: 280px;
     padding-left: 0;
     padding-right: 0;
   	min-width: auto;
 
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: $mintBG;
+    box-shadow: 0 25px 20px 0px #333333;
   }
 
   .site-list--closed {
@@ -199,48 +200,41 @@
 
   }
 
-  .site-list__item:last-child {
-	/*margin-right: 0;*/
-  }
-
   .site-list__dropdown-wrap {
     width: calc(145px + 27px);width: 100%;
   }
 }
 
-@media (min-width: 900px) {
+@media (min-width: $desktop) {
   .site-list {
   	position: static;
 
     display: flex;
-    width: 55.5%;
+    flex-wrap: wrap;
   	flex-basis: auto;
     flex-shrink: 0;
-    flex-wrap: wrap;
     align-items: flex-start;
+    width: 55.5%;
     max-width: 100%;
     padding-left: 10px;
 
     background-color: transparent;
+    box-shadow: none;
   }
+
   .site-list--closed {
     display: flex;
   }
 
   .site-list__item {
-    /*margin-right: 10px;*/
     justify-content: flex-start;
   }
 
   .site-list__dropdown-wrap {
-    width: calc(145px + 27px);width: 145px;
+    width: 145px;
   }
 
   .site-list__dropdown {
     width: 100%;
   }
 }
-
-
-
-

@@ -6,7 +6,7 @@
     <span class="visually-hidden">Открыть меню<!--Закрыть меню--></span>
   </button>
   <nav class="page-header__nav  main-nav">
-    <ul class="main-nav__list  site-list  site-list--closed">
+    <ul class="main-nav__list  site-list">
       <li class="main-nav__item  site-list__item  site-list__item--dropdown  dropdown">
         <a href="#" class="main-nav__link  site-list__link site-list__link--active  site-list__link--dropdown  dropdown__header  dropdown__focusable">
           <span class="underlined  underlined--active">Каталог</span>
@@ -46,45 +46,42 @@
       </li>
     </ul>
 
-    <ul class="main-nav__list  user-list  user-list--closed">
-      <li class="main-nav__item  user-list__item  user-list__item--search  popup"><!--search--opened-->
-
-        
-
-        <form action="https://echo.htmlacademy.ru"  class="search" method="get" autocomplete="off">
-          <button type="submit" class="main-nav__link user-list__link  user-list__link--search  search__btn  popup__header  popup__focusable">
-            <!--<svg class="user-list__icon  user-list__icon--search" width="18" height="17">
-              <use xlink:href="#icon-search"></use>
-            </svg>-->
-            Поиск
+    <ul class="main-nav__list  user-list">
+      <li class="main-nav__item  user-list__item  user-list__item--search  search  popup">
+        <button type="button" class="main-nav__link user-list__link  user-list__link--search  search__btn  popup__header  popup__focusable">
+          Поиск
+        </button>
+        <div class="user-list__popup  user-list__popup--search  search__wrap  popup__box  popup__box--no-js">
+          <button type="button" class="popup__close-btn  popup__close-btn--search  popup__close-btn--none  user-list__popup-btn  user-list__popup-btn--search"><!--  popup__close-btn--none -->
+            Закрыть модальное окно
           </button>
-          <div class="user-list__popup  user-list__popup--search  search__wrap  popup__box  popup__box--no-js">
-            <button type="button" class="popup__close-btn  popup__close-btn--none  user-list__popup-btn">
-              Закрыть модальное окно
-            </button>
-            <p class="search__input-wrap  popup__child">
-              <input class="search__input" type="text" id="search-input" name="search-input" placeholder="Что ищем?">
-            </p>
-          </div>
-        </form>
+          <form action="https://echo.htmlacademy.ru"  class="search__form  popup__child" method="get" autocomplete="off">
+            <div class="search__form-wrap">
+              <button type="submit" class="search__submit"></button>
+              <p class="search__input-wrap">
+                <input class="search__input" type="text" id="search-input" name="search-input" placeholder="Что ищем?">
+              </p>
+            </div>
+          </form>
+        </div>
       </li>
-      <li class="main-nav__item  user-list__item  user-list__item--login  popup">
-        <a href="https://webaim.org/techniques/forms/controls" class="main-nav__link user-list__link  user-list__link--login  popup__header  popup__focusable">
+      <li class="main-nav__item  user-list__item  user-list__item--login  login  popup">
+        <a href="https://webaim.org/techniques/forms/controls" class="main-nav__link user-list__link  user-list__link--login  login__link  popup__header  popup__focusable">
           <svg class="user-list__icon  user-list__icon--login" width="21" height="19">
             <use xlink:href="#icon-login"></use>
           </svg>
           <span class="user-list__link-text">Вход</span>
         </a>
-        <div class="user-list__popup  user-list__popup--login  login  popup__box">
-          <button type="button" class="popup__close-btn  popup__close-btn--none  user-list__popup-btn">
+        <div class="user-list__popup  user-list__popup--login  login__wrap  popup__box">
+          <button type="button" class="popup__close-btn  user-list__popup-btn  popup__close-btn--none">
             Закрыть модальное окно
           </button>
           <form action="https://echo.htmlacademy.ru"  class="login__form  popup__child" method="post" autocomplete="off">
             <p class="login__input-wrap">
-              <input class="login__input" type="text" id="login-input" name="login-input" placeholder="Электронная почта">
+              <input class="login__input  login__input--email" type="text" id="login-email" name="login-email" placeholder="Электронная почта" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{1,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" required>
             </p>
             <p class="login__input-wrap">
-              <input class="login__input" type="text" id="login-input" name="login-input" placeholder="Пароль">
+              <input class="login__input" type="text" id="login-password" name="login-password" placeholder="Пароль" required>
             </p>
             <div class="login__footer">
               <p class="login__footer-btn">
@@ -97,30 +94,28 @@
             </div>
           </form>
         </div>
+        <!--<div class="login__overlay">
+        </div>-->
       </li>
-      <li class="main-nav__item  user-list__item  user-list__item--cart  popup">
-        <a href="#" class="main-nav__link user-list__link  user-list__link--cart  user-list__link--full-cart  popup__header  popup__focusable">
+      <li class="main-nav__item  user-list__item  user-list__item--cart  cart  popup">
+        <a href="https://webaim.org/techniques/forms/controls" class="main-nav__link user-list__link  user-list__link--cart  user-list__link--full-cart  cart__link  popup__header  popup__focusable">
           <svg class="user-list__icon  user-list__icon--cart  user-list__icon--outcart" width="21" height="20">
             <use xlink:href="#icon-cart"></use>
           </svg>
-
           <svg class="user-list__icon  user-list__icon--cart   user-list__icon--incart" width="21" height="20">
             <use xlink:href="#icon-cart-inside"></use>
           </svg>
-
-
           <span class="user-list__link-text">
             <span  class="user-list__cart-num">2</span> 
             <span class="user-list__cart-text">товара</span>
           </span><!--Пусто-->
         </a>
 
-        <div class="user-list__popup  user-list__popup--cart  cart  popup__box">
+        <div class="user-list__popup  user-list__popup--cart  cart__wrap  popup__box">
           <button type="button" class="popup__close-btn  popup__close-btn--none  user-list__popup-btn">
             Закрыть модальное окно
           </button>
-          <form action="https://echo.htmlacademy.ru"  class="cart__form  popup__child" method="post" autocomplete="off">
-            
+          <form action="https://echo.htmlacademy.ru"  class="user-list__form  cart__form  popup__child" method="post" autocomplete="off">
             <ul class="cart__list">
               <li class="cart__list-line">
                 <div class="cart__btn-wrap">
@@ -167,8 +162,29 @@
                   <span class="cart__currency">руб.</span>
                 </div>
               </li>
+              <li class="cart__list-line">
+                <div class="cart__btn-wrap">
+                  <button class="cart__btn" type="button">Удалить</button>
+                </div>
+                <div class="cart__img-wrap">
+                  <img class="cart__img" src="img/pink-cart.jpg" width="33" height="33">
+                </div>
+                <div class="cart__title">
+                  Клубничный пломбир с присыпкой из белого шоколада
+                </div>
+                <div class="cart__calculation">
+                  <span class="cart__amount">1,5</span><!--get from added item: array of added items-->
+                  <span class="cart__unit"> кг</span>
+                  <span class="cart__multiply">x</span>
+                  <span class="cart__price">450</span><!--get from added item: array of added items-->
+                  <span class="cart__currency">руб.</span>
+                </div>
+                <div class="cart__result">
+                  <span class="cart__sum">675</span>
+                  <span class="cart__currency">руб.</span>
+                </div>
+              </li>
             </ul>
-
             <div class="cart__total">
               <span>Итого: </span>
               <span class="cart__total-num"></span>

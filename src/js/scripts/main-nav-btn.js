@@ -1,21 +1,19 @@
 'use strict';
 (function () {
-  var mainNavBtn = document.querySelector('.page-header__btn');
+  // no-js backup
+  const mainNavBtn = document.querySelector('.page-header__btn');
   mainNavBtn.classList.remove('page-header__btn--no-js');
+  const userList = document.querySelector('.user-list').classList.add('user-list--closed');
+  const siteList = document.querySelector('.site-list').classList.add('site-list--closed');
+
+  let devWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 
 
-  var breakPoints = [0, 600];
-  var devWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;//calculation + addEventL... window.addEventListener('resize', function() {calculation});
-  var devWidthBreakpoint = defineDevWidthBreakpoint();//defineDevWidthBreakpoint();//<-- defineDevWidthBreakpoint()
-  function defineDevWidthBreakpoint() {
-    return devWidth < 600 ? 0 : 600;
-  }
   function windowResizeHandler() {
     devWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-    devWidthBreakpoint = defineDevWidthBreakpoint();
   }
 
-  var navLists = [];
+  let navLists = [];
 
   function NavList(listClass) {
     this.list = document.querySelector('.' + listClass);
@@ -28,17 +26,16 @@
 
   navLists.push(new NavList('site-list'));
   navLists.push(new NavList('user-list'));
-  
-  window.addEventListener('resize', function () {
-    windowResizeHandler();
-  });
 
   mainNavBtn.addEventListener('click', function () {
-    for (var i = 0; i < navLists.length; i++) {
+    for (let i = 0; i < navLists.length; i++) {
       navLists[i].openCloseNavList();
     }
     mainNavBtn.classList.toggle('page-header__btn--open');
     mainNavBtn.classList.toggle('page-header__btn--close');
-    console.log(devWidthBreakpoint);
+  });
+
+  window.addEventListener('resize', function () {
+    windowResizeHandler();
   });
 })();
