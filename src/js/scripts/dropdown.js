@@ -141,7 +141,7 @@
     window.addEventListener('load', function () {
       ddFocusablesArray.forEach(function (it) {
         if (ddChild.contains(it)) {
-          window.utils.defineTabIndex(it, true);
+          window.utils.defineTabIndex(it, true);// запрет tab-navigation  внутри выпадающих списков,  только arrow-key nav
         }
       });
     })

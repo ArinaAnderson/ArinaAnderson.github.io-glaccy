@@ -1,5 +1,7 @@
 .cart__wrap {
-  background-color: rgba(0, 0, 0, 0.7); 
+  z-index: 55;
+
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .cart__form {
@@ -161,11 +163,13 @@
   display: block;
   margin-left: auto;
   padding: 10px 12px;
+
+  font-size: 18px;
 }
 
 @media (min-width: $tablet) {
   .cart__wrap {
-    background-color: transparent; 
+    background-color: transparent;
   }
 
   .cart__form {

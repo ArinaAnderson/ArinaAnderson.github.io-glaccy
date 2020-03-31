@@ -1,0 +1,219 @@
+.promo {
+  position: relative;
+
+  max-width: 1500px;
+  min-width: $mobileMin;
+  height: auto;
+  margin: 0 auto;
+  padding: 0;
+  padding-top: 30px;
+  /*padding: 0 $sizeM;*/
+  box-sizing: border-box;
+
+  
+  /*top: 0;
+  z-index: -1;*/
+  /*margin-top: -130px;margin-top: -9.5%;margin-top: -82px;margin-top: -130px;*/
+  z-index: -1;
+
+  /*background-image: url("http://habrastorage.org/files/97d/5df/2eb/97d5df2ebcf24bf489a37010e8157862.png");*/
+  
+}
+
+.promo__wrap {
+  /*position: relative;*/
+
+  width: 100%;
+  min-width: $mobileMin;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 0;
+  
+  overflow: hidden;
+  border-bottom: 1px solid transparent;
+
+  /*transition: background-color 0.1s ease, opacity 0.45s ease 0s, transform 0.9s ease 0s;*/
+}
+
+.promo__list {
+  display: flex;
+  flex-shrink: 0;
+  align-items: flex-start;
+  min-width: $mobileMin;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  box-sizing: content-box;
+
+
+  border-bottom: 1px solid transparent;
+  transition-property: transform;
+}
+
+.promo__item {
+  /*width: 100%;*/
+  /*height: 856px;height: 878px;height: auto;*/
+  flex-shrink: 0;
+  width: 100%;
+  min-width: $mobileMin;
+  margin: 0;
+  padding: 0;
+
+  border-bottom: 1px solid transparent;
+  overflow: hidden;
+  transition-property: transform;
+
+  /*background-image: url("http://habrastorage.org/files/97d/5df/2eb/97d5df2ebcf24bf489a37010e8157862.png");*/
+}
+
+.promo__heading {
+  position: absolute;
+  /*bottom: 335px;bottom: 405px;/*bottom: 45%;*/
+  top: 395px;top: 55%;
+  left: 50%;
+
+
+  width: 900px;width: 100%;
+  margin: 0;
+  padding: 0 25px;
+  box-sizing: border-box;
+  /*background-color: red;*/
+
+  font-size: 16px;/*font-size: 50px;*/
+  line-height: 1.2;
+  font-weight: 700;
+  text-align: center;
+
+  transform: translateX(-50%);
+}
+
+.promo__pagination {
+  position: absolute;
+  /*bottom: 0px;bottom: 348px;*//*bottom: 38.6666%;*/
+  top: 77%;
+  left: 20px;
+
+  display: flex;
+  flex-shrink: 0;
+  flex-wrap: nowrap;
+  flex-basis: 60px;
+  justify-content: space-between;
+  min-width: 60px;
+  /*width: 100px;
+  height: 20px;*/
+
+  /*background-color: rgba(100, 10, 140, 0.5);*/
+}
+
+.promo__btn {
+  position: absolute;
+  /*bottom: 295px;*/ top: 9.7vw;top: 8.7%;
+  left: 50%;
+
+  display: block;
+  flex-shrink: 0;
+  flex-grow: 1;
+  width: auto;
+  padding: 10px 20px 12px 20px;
+
+  font-size: 17px;
+
+  transform: translateX(-50%);
+}
+
+.promo__img-wrap {
+  position: relative;
+
+  width: 100%;
+  margin: 0 auto;
+  /*background-color: blue;background-image: url("http://habrastorage.org/files/97d/5df/2eb/97d5df2ebcf24bf489a37010e8157862.png");*/
+  /*width: 900px;width: 1080px;*/
+}
+
+
+.promo__img {
+  width: 100%;
+  height: auto;
+}
+
+@media (min-width: 320px) {
+  .promo__heading {
+    font-size: calc( (100vw - 320px)/(519 - 320) * (30 - 17) + 17px);
+  }
+
+  .promo__btn {
+    font-size:  calc( (100vw - 320px)/(519 - 320) * (28 - 16) + 16px);
+  }
+}
+
+@media (min-width: 520px) {
+  .promo__heading {
+    padding: 0 15%;
+
+    font-size: 30px;
+  }
+
+  .promo__btn {
+    font-size:  28px;
+  }
+}
+
+@media (min-width: $tablet) {
+  .promo {
+    padding-top: 0;
+  }
+  .promo__img-wrap {
+    position: relative;
+
+    width: 100%;
+    height: 883px;/*881px*/
+
+    overflow: hidden;
+    /*background-color: blue;background-image: url("http://habrastorage.org/files/97d/5df/2eb/97d5df2ebcf24bf489a37010e8157862.png");*/
+    /*width: 900px;width: 1080px;*/
+  }
+
+  .promo__img {
+    position: absolute;
+    top: 0;top: -130px;
+    left: 50%;
+
+    display: block;
+    /*width: auto;width: 200%;*/
+    /*height: auto;*/
+    width: auto;
+
+    transform: translateX(-50%);
+  }
+
+  .promo__btn {
+    top: 557px;
+
+    padding: 13px 40px 16px 40px;
+
+    font-size: 32px;
+  }
+
+  .promo__heading {
+    top: 400px;
+
+    padding: 0 90px;
+
+    font-size: 50px;
+  }
+
+  .promo__pagination {
+    top: 584px;
+  }
+}
+
+@media (min-width: $desktop) {
+  .promo__heading {
+    font-size: 60px;
+  }
+}
+
+
+
+
+

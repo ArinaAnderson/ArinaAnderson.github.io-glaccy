@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="css/style.min.css">
   </head>
 
-  <body class="page page--mint">
-    <div class="dropdown-overlay  popup-overlay"><!--  dropdown-overlay--hidden-->
+  <body class="page" style="background-color: rgb(132, 157, 143);"><!-- page--mint-->
+    <div class="dropdown-overlay  popup-overlay  overlay" style="background-color: rgba(0, 0, 0, 0);"><!--  dropdown-overlay--hidden-->
       <svg style="display: none;">
         <symbol viewBox="0 0 154 64" id="header-logo">
           <g fill="#fff">
@@ -253,6 +253,52 @@
         </p>
       </header>
 
+      <section class="promo">
+        <div class="swiper-container  promo__wrap">
+          <ul class="swiper-wrapper  promo__list">
+            <li class="swiper-slide  promo__item  promo__item--active">
+            	<div class="promo__img-wrap">
+                <img  class="promo__img" src="img/promo-mint-bg-mobile.png" width="1045" height="881" alt="Крем-брюле и пломбир с малиновым джемом">
+                <!--<picture class="promo__pic">
+                  <source class="promo__img" media="(min-width: 768px)"
+                    srcset="img/promo-mint-bg-mobile.png">
+                  <img  class="promo__img" src="img/promo-mint-bg-mobile.png" width="1045" height="881" alt="Крем-брюле и пломбир с малиновым джемом">
+                </picture>-->
+              </div>
+              <p class="promo__heading">
+                Крем-брюле и пломбир с&nbsp;малиновым джемом
+              </p>
+              <button type="button" class="btn  promo__btn  promo__focusable">
+                Давайте оба!
+              </button>
+            </li>
+            <li class="swiper-slide  promo__item">
+            	<div class="promo__img-wrap">
+            	  <img class="promo__img" src="img/promo-bluegray-bg-mobile.png" width="1065" height="859">
+            	</div>
+              <p class="promo__heading">
+                Шоколадный пломбир и&nbsp;лимонный сорбет
+              </p>
+              <button type="button" class="btn  promo__btn  promo__focusable">
+                Давайте оба!
+              </button>
+            </li>
+            <li class="swiper-slide  promo__item">
+            	<div class="promo__img-wrap">
+            	  <img class="promo__img" src="img/promo-coffee-bg-mobile.png" width="1079" height="854">
+            	</div>
+              <p class="promo__heading">
+                Пломбир с помадкой и&nbsp;клубничный щербет
+              </p>
+              <button type="button" class="btn  promo__btn  promo__focusable">
+                Давайте оба!
+              </button>
+            </li>
+          </ul>
+        </div>
+        <div class="swiper-pagination  swiper-pagination--promo  promo__pagination"></div>
+      </section>
+
       <template id="cart-item">
         <li class="cart__list-line">
           <button class="cart__btn" type="button">Удалить</button><!--get from added item: array of added items-->
@@ -278,6 +324,7 @@
       </template>
 
   <!--//= templates/footer.html-->
+      <script src="js/libraries/swiper.js"></script>
       <script defer src="js/script.min.js"></script>
       <!--<script defer src="js/script.js"></script>-->
     </div>

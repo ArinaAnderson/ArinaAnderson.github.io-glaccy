@@ -8,7 +8,7 @@
     SHIFT: 16
   };
   const {ESC, ENTER, SPACE, TAB, SHIFT} = keyCodes;
-
+  const page = document.querySelector('.page');
 
   window.utils = {
     defineTabIndex: function (elem, disable) {
@@ -38,9 +38,32 @@
     removeClassModifier: function (parentElem, elemClass, modifier) {
       parentElem.classList.remove(elemClass + '--' + modifier);
     },
-    windowWidthHandler: function (callback) {
+    checkDevWidth: function (callback) {
       let devWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
       callback(devWidth);
+    },// DELETE
+    stopPageScroll: function () {
+      page.classList.add('page--noscroll');
+    },
+    letPageScroll: function () {
+      page.classList.remove('page--noscroll');
+    },
+    getWindWidth: function () {
+      return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    },
+    breakpointHandler: function (breakpoint) {
+      return function (smallerWidthHandler, biggerWidthHandler, exactWidthHandler) {
+        const width = window.utils.getWindWidth();
+        if (smallerWidthHandler && width < breakpoint) {
+          smallerWidthHandler();
+        }
+        if (biggerWidthHandler && width > breakpoint) {
+          biggerWidthHandler();
+        }
+        if (exactWidthHandler && width === breakpoint) {
+          exactWidthHandler();
+        }
+      }
     }
   };
 

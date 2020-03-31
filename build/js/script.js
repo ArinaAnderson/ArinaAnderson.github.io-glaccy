@@ -63,6 +63,77 @@
 
 'use strict';
 (function () {
+  const keyCodes = {
+    ESC: 27,
+    ENTER: 13,
+    SPACE: 32,
+    TAB: 9,
+    SHIFT: 16
+  };
+  const {ESC, ENTER, SPACE, TAB, SHIFT} = keyCodes;
+  const page = document.querySelector('.page');
+
+  window.utils = {
+    defineTabIndex: function (elem, disable) {
+      elem.tabIndex = disable ? -1 : 0;
+    },
+    isEscPressed: function (evt, action) {
+      if (evt.keyCode === ESC) {
+        action();
+      }
+    },
+    isEnterPressed: function (evt, action) {
+      if (evt.keyCode === ENTER) {
+        action();
+      }
+    },
+    isSpacePressed: function (evt, action) {
+      if (evt.keyCode === SPACE) {
+        action();
+      }
+    },
+    toggleElem: function (parentElem, elemClass, modifier) {
+      parentElem.classList.toggle(elemClass + '--' + modifier);
+    },
+    addClassModifier: function (parentElem, elemClass, modifier) {
+      parentElem.classList.add(elemClass + '--' + modifier);
+    },
+    removeClassModifier: function (parentElem, elemClass, modifier) {
+      parentElem.classList.remove(elemClass + '--' + modifier);
+    },
+    checkDevWidth: function (callback) {
+      let devWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+      callback(devWidth);
+    },// DELETE
+    stopPageScroll: function () {
+      page.classList.add('page--noscroll');
+    },
+    letPageScroll: function () {
+      page.classList.remove('page--noscroll');
+    },
+    getWindWidth: function () {
+      return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    },
+    breakpointHandler: function (breakpoint) {
+      return function (smallerWidthHandler, biggerWidthHandler, exactWidthHandler) {
+        const width = window.utils.getWindWidth();
+        if (smallerWidthHandler && width < breakpoint) {
+          smallerWidthHandler();
+        }
+        if (biggerWidthHandler && width > breakpoint) {
+          biggerWidthHandler();
+        }
+        if (exactWidthHandler && width === breakpoint) {
+          exactWidthHandler();
+        }
+      }
+    }
+  };
+
+})();
+
+'use strict';
+(function () {
   const cart = document.querySelector('.cart');
   const cartForm = cart.querySelector('.cart__form');
   const cartSubmit = cartForm.querySelector('button[type="submit"]');
@@ -216,7 +287,7 @@
     window.addEventListener('load', function () {
       ddFocusablesArray.forEach(function (it) {
         if (ddChild.contains(it)) {
-          window.utils.defineTabIndex(it, true);
+          window.utils.defineTabIndex(it, true);// запрет tab-navigation  внутри выпадающих списков,  только arrow-key nav
         }
       });
     })
@@ -297,10 +368,12 @@
   const {ENTER, SPACE, TAB, SHIFT} = keyCodes;
   const TABLET_WIDTH = 768;
   // pu - abbreviation for popup;
+  // const page = document.querySelector('.page');
   const puParents = document.querySelectorAll('.popup');
   const puOverlay = document.querySelector('.popup-overlay');
   let activeEl = null;
-  let activeElToggle = false;
+
+  const tabletBreakpointHandler = window.utils.breakpointHandler(TABLET_WIDTH);
 
   function docClickHandler(evt) {
     if (activeEl && !activeEl.contains(evt.target)) {
@@ -321,24 +394,27 @@
   }
 
   function openPuMenu(elem) {
-    activeElToggle = true;
     window.utils.addClassModifier(elem, 'popup', 'focus');
     elem.addEventListener('blur', puItemBlurHandler, true);
     activeEl = elem;
 
     document.addEventListener('keydown', docEscPressHandler);
+
+    tabletBreakpointHandler(window.utils.stopPageScroll, window.utils.letPageScroll);
+
   }
 
   function closePuMenu(elem) {
-    activeElToggle = false;
     window.utils.removeClassModifier(elem, 'popup', 'focus');
     elem.removeEventListener('blur', puItemBlurHandler, true);
     activeEl = null;
 
     document.removeEventListener('keydown', docEscPressHandler);
+
+    tabletBreakpointHandler(window.utils.letPageScroll, window.utils.letPageScroll);
   }
 
-  function puItemFocusHandler(evt, btn) {
+  function puItemFocusHandler(evt) {//,btn)
     if (!evt.currentTarget.classList.contains('popup--focus')) {
       openPuMenu(evt.currentTarget);
     }
@@ -370,27 +446,45 @@
       window.utils.toggleElem(item, 'popup', 'over');
     }
 
-    function windowWidthHandler(width) {
+    /*function toggleHoverListener(width) {
       if (width > TABLET_WIDTH) {
         item.addEventListener('mouseover', puParentMouseOverHadnler);
         item.addEventListener('mouseout', puParentMouseOutHadnler);
       } else {
         item.removeEventListener('mouseover', puParentMouseOverHadnler);
         item.removeEventListener('mouseout', puParentMouseOutHadnler);
+        //puBox.scrollIntoView();
       }
+    }*/
+    function addHoverListener() {
+      item.addEventListener('mouseover', puParentMouseOverHadnler);
+      item.addEventListener('mouseout', puParentMouseOutHadnler);
     }
 
-    window.addEventListener('resize', function (evt) {
-      window.utils.windowWidthHandler(windowWidthHandler);
+    function removeHoverListener() {
+      item.removeEventListener('mouseover', puParentMouseOverHadnler);
+      item.removeEventListener('mouseout', puParentMouseOutHadnler);
+    }
+
+    window.addEventListener('resize', function (evt) {//HERE
+      //window.utils.checkDevWidth(toggleHoverListener);
+      tabletBreakpointHandler(removeHoverListener, addHoverListener);
     });
     window.addEventListener('load', function (evt) {
-      window.utils.windowWidthHandler(windowWidthHandler);
+      //window.utils.checkDevWidth(toggleHoverListener);
+      tabletBreakpointHandler(removeHoverListener, addHoverListener);
     });
 
 
 
     //item.addEventListener('blur', ddItemBlurHandler, true);
-    item.addEventListener('focus', puItemFocusHandler, true);
+    item.addEventListener('focus', function (evt) {
+      puItemFocusHandler(evt);
+
+      tabletBreakpointHandler(function () {
+        puBox.scrollIntoView();
+      });
+    }, true);
 
     // specific feature of popup, not dropdown (overlay on mobiles):
     puBox.addEventListener('click', function (evt) {
@@ -440,6 +534,110 @@
   });
 
   document.addEventListener('click', docClickHandler);
+
+
+
+
+
+/*
+let crw = document.querySelector('.cart__wrap');
+
+crw.scrollIntoView();
+*/
+
+
+})();
+
+'use strict';
+(function () {
+  if (document.querySelector('.promo__wrap')) {
+    var swiperPromo = new Swiper('.promo__wrap', {
+      spaceBetween: 0,
+      pagination: {
+        el: '.promo__pagination',
+        type: 'bullets',
+        clickable: true,
+      },
+      slidesPerView: 1,
+      loop: true,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      page: document.querySelector('.page'),
+      overlay: document.querySelector('.overlay'),// hack for ios
+
+      slides: document.querySelector('.promo__list').children,
+      pageBgs: {
+        '0': '#849d8f',
+        '1': '#8996a6',
+        '2': '#9d8b84',
+      },
+      noSlideToSlideTabNav: true,
+    });
+
+    const page = document.querySelector('.page');
+    const promoSlider = document.querySelector('.promo__list');
+    const promoSlides = document.querySelectorAll('.promo__item');
+    const promoSlidesAr = Array.prototype.slice.call(promoSlides);
+    const promoFocusables = promoSlider.querySelectorAll('.promo__focusable');
+    const promoFocusablesArr = Array.prototype.slice.call(promoFocusables);
+
+    const siteList = document.querySelector('.site-list');
+    const PORTRAIT_WIDTH_MIN = 768;
+    const LANDSCAPE_WIDTH_MIN = 900;
+    let devWidth = window.utils.getWindWidth();
+
+    let activeSlide = swiperPromo.slides[swiperPromo.activeIndex];
+    let activeFocusablesArr = Array.prototype.slice.call(activeSlide.querySelectorAll('.promo__focusable'));
+
+    function setInitialTabIdxState() {
+      promoFocusablesArr.forEach((it) => {window.utils.defineTabIndex(it, true)});
+      activeFocusablesArr.forEach((it) => {window.utils.defineTabIndex(it, false)});
+    }
+
+    function updateActiveSlide() {
+      activeSlide = swiperPromo.slides[swiperPromo.activeIndex];
+      activeFocusablesArr = Array.prototype.slice.call(activeSlide.querySelectorAll('.promo__focusable'));
+    }
+
+    function setSiteListBgColor() {
+      if (devWidth < PORTRAIT_WIDTH_MIN || devWidth >= LANDSCAPE_WIDTH_MIN) {
+        siteList.style.backgroundColor = 'transparent';
+      }  else {
+        siteList.style.backgroundColor = page.style.backgroundColor;
+      }
+    }
+
+    setInitialTabIdxState();
+
+    promoSlider.addEventListener('transitionend', function (evt) {
+      setSiteListBgColor();
+      activeFocusablesArr.forEach((it) => {window.utils.defineTabIndex(it, true)});
+      updateActiveSlide();
+      activeFocusablesArr.forEach((it) => {window.utils.defineTabIndex(it, false)});
+    }, true);
+
+    window.addEventListener('resize', function () {
+      devWidth = window.utils.getWindWidth();
+      setSiteListBgColor();
+    });
+
+    
+    // an attempt to implement
+    promoSlider.addEventListener('focus', function (evt) {
+      // console.log(evt.target, evt.currentTarget);
+
+      // blur --> if evt.focus does not belog to activeSlide -> to set focus on the nextElementSibling of promoSlider
+      // but how to find the closest interective -> closest
+
+      //!!!!document.querySelector('*[tabindex="0"]');
+
+      // to be very SPECIFIC: knowing the structure of the swiper thing we can just say: focus goes to
+      // the first child of document.querySelector('.swiper-pagination').children;
+    }, true);
+
+  }
 })();
 
 'use strict';
@@ -479,52 +677,4 @@
   const userListLinks = document.querySelectorAll('.user-list__link');
   const userListLinksArray = Array.prototype.slice.call(userListLinks);
   window.arrowNav.navigateByArrowKey(userListLinks, userListLinksArray, {focusableParent: userList});
-})();
-
-'use strict';
-(function () {
-  const keyCodes = {
-    ESC: 27,
-    ENTER: 13,
-    SPACE: 32,
-    TAB: 9,
-    SHIFT: 16
-  };
-  const {ESC, ENTER, SPACE, TAB, SHIFT} = keyCodes;
-
-
-  window.utils = {
-    defineTabIndex: function (elem, disable) {
-      elem.tabIndex = disable ? -1 : 0;
-    },
-    isEscPressed: function (evt, action) {
-      if (evt.keyCode === ESC) {
-        action();
-      }
-    },
-    isEnterPressed: function (evt, action) {
-      if (evt.keyCode === ENTER) {
-        action();
-      }
-    },
-    isSpacePressed: function (evt, action) {
-      if (evt.keyCode === SPACE) {
-        action();
-      }
-    },
-    toggleElem: function (parentElem, elemClass, modifier) {
-      parentElem.classList.toggle(elemClass + '--' + modifier);
-    },
-    addClassModifier: function (parentElem, elemClass, modifier) {
-      parentElem.classList.add(elemClass + '--' + modifier);
-    },
-    removeClassModifier: function (parentElem, elemClass, modifier) {
-      parentElem.classList.remove(elemClass + '--' + modifier);
-    },
-    windowWidthHandler: function (callback) {
-      let devWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-      callback(devWidth);
-    }
-  };
-
 })();

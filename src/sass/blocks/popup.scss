@@ -17,6 +17,10 @@
   position: relative;
 }
 
+.popup--no-scroll {
+  overflow: hidden;
+}
+
 .popup__box {
   display: none;
 

@@ -2,9 +2,25 @@
   min-width: $mobileMin;
   margin: 0 auto;
 
+  /*overflow: hidden;/*for popup mobile overlays to crop excessive height 200vh*/
+
   /*background-image: url("http://habrastorage.org/files/97d/5df/2eb/97d5df2ebcf24bf489a37010e8157862.png");*/
 
-  &--mint {
+  /*&--mint {
     background-color: $mintBG;
   }
+
+  &--bluegray {
+  	background-color: $blueGrayBG;
+  }
+
+  &--coffee {
+  	background-color: $coffeBG;
+  }*/
+
+  &--noscroll {
+    overflow: hidden;
+  }
+
 }
+

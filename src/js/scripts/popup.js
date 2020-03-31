@@ -9,10 +9,12 @@
   const {ENTER, SPACE, TAB, SHIFT} = keyCodes;
   const TABLET_WIDTH = 768;
   // pu - abbreviation for popup;
+  // const page = document.querySelector('.page');
   const puParents = document.querySelectorAll('.popup');
   const puOverlay = document.querySelector('.popup-overlay');
   let activeEl = null;
-  let activeElToggle = false;
+
+  const tabletBreakpointHandler = window.utils.breakpointHandler(TABLET_WIDTH);
 
   function docClickHandler(evt) {
     if (activeEl && !activeEl.contains(evt.target)) {
@@ -33,24 +35,27 @@
   }
 
   function openPuMenu(elem) {
-    activeElToggle = true;
     window.utils.addClassModifier(elem, 'popup', 'focus');
     elem.addEventListener('blur', puItemBlurHandler, true);
     activeEl = elem;
 
     document.addEventListener('keydown', docEscPressHandler);
+
+    tabletBreakpointHandler(window.utils.stopPageScroll, window.utils.letPageScroll);
+
   }
 
   function closePuMenu(elem) {
-    activeElToggle = false;
     window.utils.removeClassModifier(elem, 'popup', 'focus');
     elem.removeEventListener('blur', puItemBlurHandler, true);
     activeEl = null;
 
     document.removeEventListener('keydown', docEscPressHandler);
+
+    tabletBreakpointHandler(window.utils.letPageScroll, window.utils.letPageScroll);
   }
 
-  function puItemFocusHandler(evt, btn) {
+  function puItemFocusHandler(evt) {//,btn)
     if (!evt.currentTarget.classList.contains('popup--focus')) {
       openPuMenu(evt.currentTarget);
     }
@@ -82,27 +87,45 @@
       window.utils.toggleElem(item, 'popup', 'over');
     }
 
-    function windowWidthHandler(width) {
+    /*function toggleHoverListener(width) {
       if (width > TABLET_WIDTH) {
         item.addEventListener('mouseover', puParentMouseOverHadnler);
         item.addEventListener('mouseout', puParentMouseOutHadnler);
       } else {
         item.removeEventListener('mouseover', puParentMouseOverHadnler);
         item.removeEventListener('mouseout', puParentMouseOutHadnler);
+        //puBox.scrollIntoView();
       }
+    }*/
+    function addHoverListener() {
+      item.addEventListener('mouseover', puParentMouseOverHadnler);
+      item.addEventListener('mouseout', puParentMouseOutHadnler);
     }
 
-    window.addEventListener('resize', function (evt) {
-      window.utils.windowWidthHandler(windowWidthHandler);
+    function removeHoverListener() {
+      item.removeEventListener('mouseover', puParentMouseOverHadnler);
+      item.removeEventListener('mouseout', puParentMouseOutHadnler);
+    }
+
+    window.addEventListener('resize', function (evt) {//HERE
+      //window.utils.checkDevWidth(toggleHoverListener);
+      tabletBreakpointHandler(removeHoverListener, addHoverListener);
     });
     window.addEventListener('load', function (evt) {
-      window.utils.windowWidthHandler(windowWidthHandler);
+      //window.utils.checkDevWidth(toggleHoverListener);
+      tabletBreakpointHandler(removeHoverListener, addHoverListener);
     });
 
 
 
     //item.addEventListener('blur', ddItemBlurHandler, true);
-    item.addEventListener('focus', puItemFocusHandler, true);
+    item.addEventListener('focus', function (evt) {
+      puItemFocusHandler(evt);
+
+      tabletBreakpointHandler(function () {
+        puBox.scrollIntoView();
+      });
+    }, true);
 
     // specific feature of popup, not dropdown (overlay on mobiles):
     puBox.addEventListener('click', function (evt) {
@@ -152,4 +175,16 @@
   });
 
   document.addEventListener('click', docClickHandler);
+
+
+
+
+
+/*
+let crw = document.querySelector('.cart__wrap');
+
+crw.scrollIntoView();
+*/
+
+
 })();

@@ -1,5 +1,7 @@
 .page-header {
   position: relative;
+  top: 0;
+  left: 50%;
 
   width: 100%;
   max-width: 1500px;
@@ -7,6 +9,8 @@
   margin: 0 auto;
   padding: $sizeS $sizeM 0 $sizeM;
   box-sizing: border-box;
+
+  transform: translateX(-50%);
 }
 
 .page-header__logo {
@@ -122,6 +126,8 @@
 
 @media (min-width: $tablet) {
   .page-header {
+    position: absolute;
+
     display: flex;
     flex-wrap: wrap;
   }
