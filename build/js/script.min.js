@@ -47,8 +47,10 @@
 
       focusables.forEach(function (elem) {
         elem.addEventListener('keydown', function (evt) {
+          //
           if (evt.keyCode === keyCodes[direction[0]] ||
             evt.keyCode === keyCodes[direction[1]]) {
+            evt.preventDefault();
             let nextElemIndx;
             nextElemIndx = getNextIndx(evt, focusablesArray, arrKeysParams);
             evt.target.blur();
