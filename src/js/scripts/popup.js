@@ -11,7 +11,6 @@
   // pu - abbreviation for popup;
   // const page = document.querySelector('.page');
   const puParents = document.querySelectorAll('.popup');
-  const puOverlay = document.querySelector('.popup-overlay');
   let activeEl = null;
 
   const tabletBreakpointHandler = window.utils.breakpointHandler(TABLET_WIDTH);

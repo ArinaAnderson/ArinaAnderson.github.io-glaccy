@@ -10,7 +10,6 @@
 
   const ddParents = document.querySelectorAll('.dropdown');
   const ddHeaders = document.querySelectorAll('.dropdown__header');
-  const ddOverlay = document.querySelector('.dropdown-overlay');
   let activeEl = null;
   let activeElToggle = false;
   let thisDdcloseBtn = null;

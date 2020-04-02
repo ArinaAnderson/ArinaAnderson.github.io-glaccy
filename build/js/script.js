@@ -158,7 +158,6 @@
 
   const ddParents = document.querySelectorAll('.dropdown');
   const ddHeaders = document.querySelectorAll('.dropdown__header');
-  const ddOverlay = document.querySelector('.dropdown-overlay');
   let activeEl = null;
   let activeElToggle = false;
   let thisDdcloseBtn = null;
@@ -372,7 +371,6 @@
   // pu - abbreviation for popup;
   // const page = document.querySelector('.page');
   const puParents = document.querySelectorAll('.popup');
-  const puOverlay = document.querySelector('.popup-overlay');
   let activeEl = null;
 
   const tabletBreakpointHandler = window.utils.breakpointHandler(TABLET_WIDTH);
